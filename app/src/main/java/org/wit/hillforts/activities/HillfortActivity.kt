@@ -65,17 +65,8 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger {
 
             // I'm not proud of this, but it gets the job done for now...
             if (hillfort.images.size > 0) {
-                    hillfortImage1.setImageBitmap(readImageFromPath(this, hillfort.images[0]))
-                if(hillfort.images.size >= 2) {
-                    hillfortImage2.setImageBitmap(readImageFromPath(this, hillfort.images[1]))
-                }
-                if (hillfort.images.size >= 3) {
-                    hillfortImage3.setImageBitmap(readImageFromPath(this, hillfort.images[2]))
-                }
-                if (hillfort.images.size >= 4) {
-                    hillfortImage4.setImageBitmap(readImageFromPath(this, hillfort.images[3]))
-                }
-                }
+                hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.images.last()))
+            }
             btnAdd.setText(R.string.save_hillfort)
         }
 
@@ -90,20 +81,8 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger {
             startActivityForResult(intentFor<MapActivity>().putExtra("location", location),
                 LOCATION_REQUEST)
         }
-        deleteImage1.setOnClickListener{
+        deleteImage.setOnClickListener{
             app.hillforts.deleteImage(hillfort, 0)
-            finish()
-        }
-        deleteImage2.setOnClickListener{
-            app.hillforts.deleteImage(hillfort, 1)
-            finish()
-        }
-        deleteImage3.setOnClickListener{
-            app.hillforts.deleteImage(hillfort, 2)
-            finish()
-        }
-        deleteImage4.setOnClickListener{
-            app.hillforts.deleteImage(hillfort, 3)
             finish()
         }
 

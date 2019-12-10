@@ -46,7 +46,7 @@ class HillfortsAdapter constructor(
                 itemView.imageIcon.setImageBitmap(
                     readImageFromPath(
                         itemView.context,
-                        hillfort.images[0]
+                        hillfort.images.last()
                     )
                 )
             }
