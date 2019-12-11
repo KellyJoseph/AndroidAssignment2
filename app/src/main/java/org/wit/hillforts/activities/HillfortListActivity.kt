@@ -20,12 +20,16 @@ import org.wit.hillforts.models.UserModel
 class HillfortListActivity: AppCompatActivity(), HillfortListener {
 
     lateinit var app: MainApp
+    lateinit var presenter: HillfortListPresenter
 
     //create the activity. bundle is what activity data is saved in if closed, used to re-create a
     //closed activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillforts_list)
+        toolbar.title = title
+        setSupportActionBar(toolbar)
+
         val data = intent.extras
         val user = data!!.getParcelable<UserModel>("user")
         toast("welcome ${user?.firstName}")
@@ -33,12 +37,11 @@ class HillfortListActivity: AppCompatActivity(), HillfortListener {
         var visitedHillforts = app.hillforts.findVisitedHillfortsByUser(app.loggedInUser)
         app.visitedHillforts = visitedHillforts
 
+        presenter = HillfortListPresenter(this)
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        loadHillforts()
+        //loadHillforts()
         recyclerView.adapter = HillfortsAdapter(app.hillforts.findAllByUser(app.loggedInUser), this)
-        toolbar.title = title
-        setSupportActionBar(toolbar)
     }
 
     //just add the + button
@@ -67,11 +70,11 @@ class HillfortListActivity: AppCompatActivity(), HillfortListener {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //recyclerView.adapter?.notifyDataSetChanged()
-        //loadHillforts()
-        loadHillfortsByUser()
+        //loadHillfortsByUser()
+        recyclerView.adapter?.notifyDataSetChanged()
         super.onActivityResult(requestCode, resultCode, data)
     }
+    /*
     private fun loadHillforts() {
         showHillforts(app.hillforts.findAll())
     }
@@ -82,4 +85,6 @@ class HillfortListActivity: AppCompatActivity(), HillfortListener {
         recyclerView.adapter = HillfortsAdapter(hillforts, this)
         recyclerView.adapter?.notifyDataSetChanged()
     }
+
+     */
 }
