@@ -27,7 +27,7 @@ import java.util.*
 
 
 class HillfortActivity : AppCompatActivity(), AnkoLogger {
-
+    lateinit var presenter: HillfortPresenter
     var hillfort = HillfortModel()
     var dateVisited = String()
     lateinit var app: MainApp
@@ -40,6 +40,8 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger {
         setContentView(R.layout.activity_hillfort)
         toolbarAdd.title = title
         setSupportActionBar(toolbarAdd)
+
+        presenter = HillfortPresenter(this)
         edit = true
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -89,20 +91,16 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger {
         }
 
         btnAdd.setOnClickListener() {
-            hillfort.name= hillfortName.text.toString()
-            hillfort.description = description.text.toString()
-            hillfort.notes = notes.text.toString()
-            hillfort.authorId = app.loggedInUser!!.id
-            hillfort.visited = checkbox.isChecked
-            hillfort.visitedDate = dateVisited
+            var name= hillfortName.text.toString()
+            var description = description.text.toString()
+            var notes = notes.text.toString()
+            var authorId = app.loggedInUser!!.id
+            var visited = checkbox.isChecked
+            var visitedDate = dateVisited
             if (hillfort.name.isEmpty()) {
                 toast(R.string.enter_hillfort_name)
             } else {
-                if (edit) {
-                    app.hillforts.update(hillfort.copy())
-                } else {
-                    app.hillforts.create(hillfort.copy())
-                }
+                presenter.doAddOrSave(name, description, notes, authorId, visited, visitedDate)
             }
             info("add Button Pressed: $hillfortName")
             setResult(AppCompatActivity.RESULT_OK)
@@ -114,6 +112,17 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger {
             showImagePicker(this, IMAGE_REQUEST)
         }
     }
+
+    fun showHillfort(hillfort: HillfortModel) {
+        hillfortName.setText(hillfort.name)
+        description.setText(hillfort.description)
+        hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.images.last()))
+        if (!hillfort.images.isEmpty()) {
+            chooseImage.setText(R.string.change_hillfort_image)
+        }
+        btnAdd.setText(R.string.save_hillfort)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.hillfort_menu, menu)
         if (edit && menu != null) menu.getItem(0).setVisible(true)
@@ -140,7 +149,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger {
                 R.id.checkbox -> {
                     if (checked) {
                         hillfort.visited = true
-                        app.hillforts.update(hillfort.copy())
+                        //app.hillforts.update(hillfort.copy())
                     }
                 }
             }
@@ -172,7 +181,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger {
                     }
                     else {
                         hillfort.images.add(data.getData().toString())
-                        app.hillforts.update(hillfort.copy())
+                        //app.hillforts.update(hillfort.copy())
                         //finish()
                         //hillfortImage1.setImageBitmap(readImage(this, resultCode, data))
                     }
