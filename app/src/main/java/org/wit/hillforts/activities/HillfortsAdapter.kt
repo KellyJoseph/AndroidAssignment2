@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.hillfort_card_xml.view.*
+import kotlinx.android.synthetic.main.hillfort_card.view.*
 import org.wit.hillforts.R
 import org.wit.hillforts.helpers.readImageFromPath
 import org.wit.hillforts.models.HillfortModel
@@ -22,7 +22,7 @@ class HillfortsAdapter constructor(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         return MainHolder(
             LayoutInflater.from(parent.context).inflate(
-                R.layout.hillfort_card_xml,
+                R.layout.hillfort_card,
                 parent,
                 false
             )

@@ -33,12 +33,14 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger {
     lateinit var app: MainApp
     val IMAGE_REQUEST = 1
     val LOCATION_REQUEST = 2
+    var edit = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort)
         toolbarAdd.title = title
         setSupportActionBar(toolbarAdd)
+        edit = true
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
@@ -114,6 +116,7 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger {
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.hillfort_menu, menu)
+        if (edit && menu != null) menu.getItem(0).setVisible(true)
         return super.onCreateOptionsMenu(menu)
     }
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
