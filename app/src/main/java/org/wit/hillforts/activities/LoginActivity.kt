@@ -13,7 +13,7 @@ import org.jetbrains.anko.toast
 import org.wit.hillforts.R
 import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.UserModel
-import org.wit.hillforts.views.HillfortList.HillfortListActivity
+import org.wit.hillforts.views.HillfortList.HillfortListView
 
 class LoginActivity : AppCompatActivity(), AnkoLogger {
 
@@ -38,7 +38,7 @@ class LoginActivity : AppCompatActivity(), AnkoLogger {
                     app.loggedInUser = res
                     toast("logged in")
                    // val intent = Intent(this)
-                    startActivity(Intent(this, HillfortListActivity::class.java).
+                    startActivity(Intent(this, HillfortListView::class.java).
                         putExtra("user", res))
                 }
                 else if (res == null) {

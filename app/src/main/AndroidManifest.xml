@@ -38,11 +38,11 @@
         <activity android:name=".activities.LoginActivity" />
         <activity
             android:name=".views.Hillfort.HillfortView"
-            android:parentActivityName=".views.HillfortList.HillfortListActivity"></activity>
+            android:parentActivityName=".views.HillfortList.HillfortListView"></activity>
         <activity
             android:name=".activities.UserActivity"
-            android:parentActivityName=".views.HillfortList.HillfortListActivity"></activity>
-        <activity android:name=".views.HillfortList.HillfortListActivity" />
+            android:parentActivityName=".views.HillfortList.HillfortListView"></activity>
+        <activity android:name=".views.HillfortList.HillfortListView" />
         <activity
             android:name=".activities.RegisterActivity"
             android:parentActivityName=".activities.LoginActivity"></activity>

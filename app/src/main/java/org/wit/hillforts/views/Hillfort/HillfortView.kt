@@ -22,11 +22,12 @@ import org.wit.hillforts.helpers.showImagePicker
 import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.models.Location
+import org.wit.hillforts.views.BaseView
 import org.wit.hillforts.views.Map.MapView
 import java.util.*
 
 
-class HillfortView : AppCompatActivity(), AnkoLogger {
+class HillfortView : BaseView(), AnkoLogger {
     lateinit var presenter: HillfortPresenter
     var hillfort = HillfortModel()
     var dateVisited = String()
@@ -41,7 +42,8 @@ class HillfortView : AppCompatActivity(), AnkoLogger {
         toolbarAdd.title = title
         setSupportActionBar(toolbarAdd)
 
-        presenter = HillfortPresenter(this)
+        //presenter = HillfortPresenter(this)
+        presenter = initPresenter (HillfortPresenter(this)) as HillfortPresenter
         edit = true
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
@@ -113,7 +115,7 @@ class HillfortView : AppCompatActivity(), AnkoLogger {
         }
     }
 
-    fun showHillfort(hillfort: HillfortModel) {
+    override fun showHillfort(hillfort: HillfortModel) {
         hillfortName.setText(hillfort.name)
         description.setText(hillfort.description)
         hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.images.last()))

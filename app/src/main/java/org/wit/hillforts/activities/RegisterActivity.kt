@@ -33,7 +33,7 @@ class RegisterActivity: AppCompatActivity() {
                 app.users.register(user)
                 toast("Log in to proceed")
                 finish()
-                //startActivity(Intent(this, HillfortListActivity::class.java))
+                //startActivity(Intent(this, HillfortListView::class.java))
 
             } else {
                 toast("An email address and password are required")

@@ -6,19 +6,23 @@ import org.wit.hillforts.helpers.showImagePicker
 import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.Location
 import org.wit.hillforts.models.HillfortModel
+import org.wit.hillforts.views.BasePresenter
+import org.wit.hillforts.views.BaseView
+import org.wit.hillforts.views.IMAGE_REQUEST
 import org.wit.hillforts.views.Map.MapView
+import org.wit.hillforts.views.VIEW
 
-class HillfortPresenter(val view: HillfortView) {
+class HillfortPresenter(view: BaseView): BasePresenter(view) {
     var hillfort = HillfortModel()
     var dateVisited = String()
-    var location = Location(52.245696, -7.139102, 15f)
-    lateinit var app: MainApp
+    var defaultLocation = Location(52.245696, -7.139102, 15f)
+    //lateinit var app: MainApp
     val IMAGE_REQUEST = 1
     val LOCATION_REQUEST = 2
     var edit = false
 
     init {
-        app = view.application as MainApp
+        //app = view.application as MainApp
         if(view.intent.hasExtra("hillfort_edit")) {
             edit = true
             hillfort = view.intent.extras?.getParcelable<HillfortModel>("hillfort_edit")!!
@@ -41,27 +45,42 @@ class HillfortPresenter(val view: HillfortView) {
     }
 
     fun doCancel() {
-        view.finish()
+        view?.finish()
     }
     fun doDelete() {
         app.hillforts.delete(hillfort)
+        view?.finish()
     }
     fun doSelectImage() {
-        showImagePicker(view, IMAGE_REQUEST)
+        view?.let() {
+            showImagePicker(view!!, IMAGE_REQUEST)
+        }
     }
     fun doSetLocation() {
-        if(hillfort.zoom != 0f) {
+        /* if(hillfort.zoom != 0f) {
             location.lat = hillfort.lat
             location.lng = hillfort.lng
             location.zoom = hillfort.zoom
         }
         view.startActivityForResult(view.intentFor<MapView>().putExtra("location", location), LOCATION_REQUEST)
+         */
+        if (edit == false) {
+            view?.navigateTo(VIEW.LOCATION, LOCATION_REQUEST, "location", defaultLocation)
+        } else {
+            view?.navigateTo(
+                VIEW.LOCATION,
+                LOCATION_REQUEST,
+                "location",
+                Location(hillfort.lat, hillfort.lng, hillfort.zoom)
+            )
+        }
     }
 
-    fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+    override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         when(requestCode) {
             IMAGE_REQUEST -> {
                 hillfort.images.add(data.getData().toString())
+                view?.showHillfort(hillfort)
             }
             LOCATION_REQUEST -> {
                 if (data != null) {

@@ -14,8 +14,9 @@ import org.wit.hillforts.R
 import org.wit.hillforts.helpers.readImageFromPath
 import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.HillfortModel
+import org.wit.hillforts.views.BaseView
 
-class HillfortsMapView : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
+class HillfortsMapView: BaseView(), GoogleMap.OnMarkerClickListener {
 
     lateinit var map: GoogleMap
     lateinit var app: MainApp
@@ -24,16 +25,18 @@ class HillfortsMapView : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort_maps)
-        setSupportActionBar(toolbar)
-        presenter = HillfortsMapPresenter(this)
-        app = application as MainApp
+        //setSupportActionBar(toolbar)
+        super.init(toolbar)
+
+        //presenter = HillfortsMapPresenter(this)
+        presenter = initPresenter(HillfortsMapPresenter(this)) as HillfortsMapPresenter
+
+        //app = application as MainApp
         mapView.onCreate(savedInstanceState);
-        //mapView.getMapAsync {
-        //    map = it
-        //    configureMap()
-        //}
-        mapView.getMapAsync() {
-            presenter.doPopulateMap(it)
+        mapView.getMapAsync {
+            map = it
+            map.setOnMarkerClickListener(this)
+            presenter.loadHillforts()
         }
     }
 
@@ -48,10 +51,14 @@ class HillfortsMapView : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
         }
     }
 
-    fun showHillfort(hillfort: HillfortModel) {
+    override fun showHillfort(hillfort: HillfortModel) {
         currentName.text = hillfort.name
         currentDescription.text = hillfort.description
         currentImage.setImageBitmap(readImageFromPath(this, hillfort.images.last()))
+    }
+
+    override fun showHillforts(hillforts: List<HillfortModel>) {
+        presenter.doPopulateMap(map, hillforts)
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {

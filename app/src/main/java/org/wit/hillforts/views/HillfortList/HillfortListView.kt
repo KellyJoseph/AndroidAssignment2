@@ -15,21 +15,20 @@ import org.wit.hillforts.activities.*
 import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.models.UserModel
+import org.wit.hillforts.views.BaseView
 import org.wit.hillforts.views.HillfortMaps.HillfortsMapView
 import org.wit.hillforts.views.Hillfort.HillfortView
 
-class HillfortListActivity: AppCompatActivity(), HillfortListener {
+class HillfortListView: BaseView(), HillfortListener {
 
     lateinit var app: MainApp
     lateinit var presenter: HillfortListPresenter
 
-    //create the activity. bundle is what activity data is saved in if closed, used to re-create a
-    //closed activity
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillforts_list)
-        toolbar.title = title
         setSupportActionBar(toolbar)
+        toolbar.title = title
 
         val data = intent.extras
         val user = data!!.getParcelable<UserModel>("user")
@@ -38,10 +37,10 @@ class HillfortListActivity: AppCompatActivity(), HillfortListener {
         var visitedHillforts = app.hillforts.findVisitedHillfortsByUser(app.loggedInUser)
         app.visitedHillforts = visitedHillforts
 
-        presenter = HillfortListPresenter(this)
+        presenter = initPresenter(HillfortListPresenter(this)) as HillfortListPresenter
+
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        //loadHillforts()
         recyclerView.adapter = HillfortsAdapter(
             app.hillforts.findAllByUser(app.loggedInUser),
             this
@@ -54,7 +53,6 @@ class HillfortListActivity: AppCompatActivity(), HillfortListener {
         return super.onCreateOptionsMenu(menu)
     }
 
-
     //handler for the add button
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
@@ -66,8 +64,6 @@ class HillfortListActivity: AppCompatActivity(), HillfortListener {
         return super.onOptionsItemSelected(item)
     }
 
-
-
     //handler for select activity edit
     override fun onHillfortClick(hillfort: HillfortModel) {
         startActivityForResult(intentFor<HillfortView>().putExtra("hillfort_edit", hillfort), 0)
@@ -75,20 +71,8 @@ class HillfortListActivity: AppCompatActivity(), HillfortListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         //loadHillfortsByUser()
-        recyclerView.adapter?.notifyDataSetChanged()
+        //recyclerView.adapter?.notifyDataSetChanged()
+        presenter.losdHillforts()
         super.onActivityResult(requestCode, resultCode, data)
     }
-    /*
-    private fun loadHillforts() {
-        showHillforts(app.hillforts.findAll())
-    }
-    private fun loadHillfortsByUser() {
-        showHillforts(app.hillforts.findAllByUser(app.loggedInUser))
-    }
-    fun showHillforts (hillforts: List<HillfortModel>) {
-        recyclerView.adapter = HillfortsAdapter(hillforts, this)
-        recyclerView.adapter?.notifyDataSetChanged()
-    }
-
-     */
 }
