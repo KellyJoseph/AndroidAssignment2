@@ -1,7 +1,6 @@
-package org.wit.hillforts.activities
+package org.wit.hillforts.views.HillfortMaps
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -14,22 +13,27 @@ import kotlinx.android.synthetic.main.content_hillfort_maps.*
 import org.wit.hillforts.R
 import org.wit.hillforts.helpers.readImageFromPath
 import org.wit.hillforts.main.MainApp
+import org.wit.hillforts.models.HillfortModel
 
-class HillfortMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
+class HillfortsMapView : AppCompatActivity(), GoogleMap.OnMarkerClickListener {
 
     lateinit var map: GoogleMap
     lateinit var app: MainApp
+    lateinit var presenter: HillfortsMapPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort_maps)
-        //toolbar.title = title
         setSupportActionBar(toolbar)
+        presenter = HillfortsMapPresenter(this)
         app = application as MainApp
         mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync {
-            map = it
-            configureMap()
+        //mapView.getMapAsync {
+        //    map = it
+        //    configureMap()
+        //}
+        mapView.getMapAsync() {
+            presenter.doPopulateMap(it)
         }
     }
 
@@ -44,12 +48,19 @@ class HillfortMapsActivity : AppCompatActivity(), GoogleMap.OnMarkerClickListene
         }
     }
 
+    fun showHillfort(hillfort: HillfortModel) {
+        currentName.text = hillfort.name
+        currentDescription.text = hillfort.description
+        currentImage.setImageBitmap(readImageFromPath(this, hillfort.images.last()))
+    }
+
     override fun onMarkerClick(marker: Marker): Boolean {
-        currentName.text = marker.title
-        val tag = marker.tag as Long
-        val placemark = app.hillforts.findById(tag)
-        currentDescription.text = placemark!!.description
-        currentImage.setImageBitmap(readImageFromPath(this, placemark.images.last()))
+        //currentName.text = marker.title
+        //val tag = marker.tag as Long
+        //val placemark = app.hillforts.findById(tag)
+        //currentDescription.text = placemark!!.description
+        //currentImage.setImageBitmap(readImageFromPath(this, placemark.images.last()))
+        presenter.doMarkerSelected(marker)
         return true
     }
 

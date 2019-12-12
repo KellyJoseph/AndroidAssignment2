@@ -1,4 +1,4 @@
-package org.wit.hillforts.activities
+package org.wit.hillforts.views.Hillfort
 
 import android.app.DatePickerDialog
 import android.content.Intent
@@ -17,16 +17,16 @@ import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
-import org.wit.hillforts.helpers.readImage
 import org.wit.hillforts.helpers.readImageFromPath
 import org.wit.hillforts.helpers.showImagePicker
 import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.models.Location
+import org.wit.hillforts.views.Map.MapView
 import java.util.*
 
 
-class HillfortActivity : AppCompatActivity(), AnkoLogger {
+class HillfortView : AppCompatActivity(), AnkoLogger {
     lateinit var presenter: HillfortPresenter
     var hillfort = HillfortModel()
     var dateVisited = String()
@@ -76,13 +76,13 @@ class HillfortActivity : AppCompatActivity(), AnkoLogger {
 
         hillfortLocation.setOnClickListener {
             val location = Location(52.245696, -7.139102, 15f)
-            //startActivity (intentFor<MapActivity>().putExtra("location", location))
+            //startActivity (intentFor<MapView>().putExtra("location", location))
             if (hillfort.zoom != 0f) {
                 location.lat =  hillfort.lat
                 location.lng = hillfort.lng
                 location.zoom = hillfort.zoom
             }
-            startActivityForResult(intentFor<MapActivity>().putExtra("location", location),
+            startActivityForResult(intentFor<MapView>().putExtra("location", location),
                 LOCATION_REQUEST)
         }
         deleteImage.setOnClickListener{

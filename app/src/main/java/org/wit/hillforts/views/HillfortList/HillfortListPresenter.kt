@@ -1,4 +1,4 @@
-package org.wit.hillforts.activities
+package org.wit.hillforts.views.HillfortList
 
 import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.HillfortModel
@@ -6,6 +6,8 @@ import org.wit.hillforts.models.HillfortModel
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
+import org.wit.hillforts.views.HillfortMaps.HillfortsMapView
+import org.wit.hillforts.views.Hillfort.HillfortView
 
 
 class HillfortListPresenter(val view: HillfortListActivity) {
@@ -19,14 +21,14 @@ class HillfortListPresenter(val view: HillfortListActivity) {
     fun getPlacemarks() = app.hillforts.findAll()
 
     fun doAddPlacemark() {
-        view.startActivityForResult<HillfortActivity>(0)
+        view.startActivityForResult<HillfortView>(0)
     }
 
     fun doEditPlacemark(placemark: HillfortModel) {
-        view.startActivityForResult(view.intentFor<HillfortActivity>().putExtra("placemark_edit", placemark), 0)
+        view.startActivityForResult(view.intentFor<HillfortView>().putExtra("placemark_edit", placemark), 0)
     }
 
     fun doShowPlacemarksMap() {
-        view.startActivity<HillfortMapsActivity>()
+        view.startActivity<HillfortsMapView>()
     }
 }

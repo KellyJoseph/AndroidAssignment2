@@ -1,4 +1,4 @@
-package org.wit.hillforts.activities
+package org.wit.hillforts.views.Map
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -8,7 +8,7 @@ import com.google.android.gms.maps.model.Marker
 import org.wit.hillfort.activities.MapPresenter
 import org.wit.hillforts.R
 
-class MapActivity : AppCompatActivity(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener {
+class MapView : AppCompatActivity(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener {
 
     lateinit var map: GoogleMap
     lateinit var presenter: MapPresenter
