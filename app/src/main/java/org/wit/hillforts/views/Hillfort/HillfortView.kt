@@ -3,7 +3,6 @@ package org.wit.hillforts.views.Hillfort
 import android.app.DatePickerDialog
 import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -14,16 +13,12 @@ import androidx.annotation.RequiresApi
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.wit.hillforts.R
 import org.jetbrains.anko.AnkoLogger
-import org.jetbrains.anko.info
-import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.toast
 import org.wit.hillforts.helpers.readImageFromPath
-import org.wit.hillforts.helpers.showImagePicker
 import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.models.Location
 import org.wit.hillforts.views.BaseView
-import org.wit.hillforts.views.Map.MapView
 import java.util.*
 
 
@@ -39,18 +34,11 @@ class HillfortView : BaseView(), AnkoLogger {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort)
+        init(toolbarAdd)
         toolbarAdd.title = title
-        setSupportActionBar(toolbarAdd)
 
-        //presenter = HillfortPresenter(this)
         presenter = initPresenter (HillfortPresenter(this)) as HillfortPresenter
-        edit = true
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-
-        info("Hillfort Activity started..")
-        var edit = false
-        app = application as MainApp
 
         if (intent.hasExtra("hillfort_edit")) {
             edit = true
@@ -61,64 +49,26 @@ class HillfortView : BaseView(), AnkoLogger {
             var date = hillfort.visitedDate
             var dateText = "$date last visited"
             visitedDateDisplay.setText(dateText)
-            if (hillfort.visited == true) {
-                checkbox.setChecked(true);
-            }
-            //hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.image))
-            //if (hillfort.image != null) {
-            //    chooseImage.setText(R.string.change_hillfort_image)
-            //}
-
-            // I'm not proud of this, but it gets the job done for now...
+            checkbox.setChecked(hillfort.visited)
             if (hillfort.images.size > 0) {
                 hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.images.last()))
             }
-            btnAdd.setText(R.string.save_hillfort)
+            btnAdd.setText("Save")
+            deleteImage.setOnClickListener() { presenter.doDeleteImage()}
         }
-
-        hillfortLocation.setOnClickListener {
-            val location = Location(52.245696, -7.139102, 15f)
-            //startActivity (intentFor<MapView>().putExtra("location", location))
-            if (hillfort.zoom != 0f) {
-                location.lat =  hillfort.lat
-                location.lng = hillfort.lng
-                location.zoom = hillfort.zoom
-            }
-            startActivityForResult(intentFor<MapView>().putExtra("location", location),
-                LOCATION_REQUEST)
-        }
-        deleteImage.setOnClickListener{
-            app.hillforts.deleteImage(hillfort, 0)
-            finish()
-        }
-
-        btnAdd.setOnClickListener() {
-            var name= hillfortName.text.toString()
-            var description = description.text.toString()
-            var notes = notes.text.toString()
-            var authorId = app.loggedInUser!!.id
-            var visited = checkbox.isChecked
-            var visitedDate = dateVisited
-            if (hillfort.name.isEmpty()) {
-                toast(R.string.enter_hillfort_name)
-            } else {
-                presenter.doAddOrSave(name, description, notes, authorId, visited, visitedDate)
-            }
-            info("add Button Pressed: $hillfortName")
-            setResult(AppCompatActivity.RESULT_OK)
-            finish()
-        }
-
-
-        chooseImage.setOnClickListener {
-            showImagePicker(this, IMAGE_REQUEST)
-        }
+        btnAdd.setOnClickListener() {presenter.doAddOrSave(hillfortName.text.toString(),
+            description.text.toString(), notes.text.toString(), presenter.app.loggedInUser.id,
+            checkbox.isChecked, dateVisited)}
+        hillfortLocation.setOnClickListener(){ presenter.doSetLocation()}
+        chooseImage.setOnClickListener(){ presenter.doSelectImage()}
     }
 
     override fun showHillfort(hillfort: HillfortModel) {
         hillfortName.setText(hillfort.name)
         description.setText(hillfort.description)
-        hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.images.last()))
+        if (hillfort.images.size > 0) {
+            hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.images.last()))
+        }
         if (!hillfort.images.isEmpty()) {
             chooseImage.setText(R.string.change_hillfort_image)
         }
@@ -133,12 +83,11 @@ class HillfortView : BaseView(), AnkoLogger {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.item_cancel -> {
-                finish()
+                presenter.doCancel()
             }
             R.id.item_delete -> {
                 toast ("Delete button was pressed ${hillfort.id}")
-                app.hillforts.delete(hillfort)
-                finish()
+                presenter.doDelete()
             }
         }
         return super.onOptionsItemSelected(item)
@@ -151,13 +100,12 @@ class HillfortView : BaseView(), AnkoLogger {
                 R.id.checkbox -> {
                     if (checked) {
                         hillfort.visited = true
-                        //app.hillforts.update(hillfort.copy())
                     }
                 }
             }
         }
     }
-    // adapted from https://tutorial.eyehunts.com/android/android-date-picker-dialog-example-kotlin/
+
     @RequiresApi(Build.VERSION_CODES.N)
     fun clickDataPicker(view: View) {
         val c = Calendar.getInstance()
@@ -172,7 +120,6 @@ class HillfortView : BaseView(), AnkoLogger {
         dpd.show()
     }
 
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -183,9 +130,6 @@ class HillfortView : BaseView(), AnkoLogger {
                     }
                     else {
                         hillfort.images.add(data.getData().toString())
-                        //app.hillforts.update(hillfort.copy())
-                        //finish()
-                        //hillfortImage1.setImageBitmap(readImage(this, resultCode, data))
                     }
                     chooseImage.setText(R.string.change_hillfort_image)
                 }

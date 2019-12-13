@@ -24,4 +24,8 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
     fun doShowHillfortsMap() {
         view?.navigateTo(VIEW.MAPS)
     }
+
+    fun loadPlacemarks() {
+        view?.showPlacemarks(app.placemarks.findAll())
+    }
 }
