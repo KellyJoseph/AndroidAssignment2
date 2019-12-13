@@ -21,7 +21,7 @@ import org.wit.hillforts.views.Hillfort.HillfortView
 
 class HillfortListView: BaseView(), HillfortListener {
 
-    lateinit var app: MainApp
+    //lateinit var app: MainApp
     lateinit var presenter: HillfortListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,18 +33,20 @@ class HillfortListView: BaseView(), HillfortListener {
         val data = intent.extras
         val user = data!!.getParcelable<UserModel>("user")
         toast("welcome ${user?.firstName}")
-        app = application as MainApp
-        var visitedHillforts = app.hillforts.findVisitedHillfortsByUser(app.loggedInUser)
-        app.visitedHillforts = visitedHillforts
+        //app = application as MainApp
+        //var visitedHillforts = app.hillforts.findVisitedHillfortsByUser(app.loggedInUser)
+        //app.visitedHillforts = visitedHillforts
 
         presenter = initPresenter(HillfortListPresenter(this)) as HillfortListPresenter
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
-        recyclerView.adapter = HillfortsAdapter(
-            app.hillforts.findAllByUser(app.loggedInUser),
-            this
-        )
+        presenter.loadHillforts()
+    }
+
+    override fun showHillforts(hillforts: List<HillfortModel>) {
+        recyclerView.adapter = HillfortsAdapter(hillforts, this)
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
     //just add the + button
@@ -56,8 +58,8 @@ class HillfortListView: BaseView(), HillfortListener {
     //handler for the add button
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.item_add -> startActivityForResult<HillfortView>(0)
-            R.id.item_map -> startActivity<HillfortsMapView>()
+            R.id.item_add -> presenter.doAddHillfort()
+            R.id.item_map -> presenter.doShowHillfortsMap()
             R.id.settings -> startActivityForResult<UserActivity>(0)
             R.id.logout -> startActivity(Intent(this, LoginActivity::class.java))
         }
@@ -66,13 +68,13 @@ class HillfortListView: BaseView(), HillfortListener {
 
     //handler for select activity edit
     override fun onHillfortClick(hillfort: HillfortModel) {
-        startActivityForResult(intentFor<HillfortView>().putExtra("hillfort_edit", hillfort), 0)
+        presenter.doEditHillfort(hillfort)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         //loadHillfortsByUser()
         //recyclerView.adapter?.notifyDataSetChanged()
-        presenter.losdHillforts()
+        presenter.loadHillforts()
         super.onActivityResult(requestCode, resultCode, data)
     }
 }

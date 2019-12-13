@@ -11,21 +11,19 @@ import org.wit.hillforts.views.VIEW
 
 class HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
-    fun losdHillforts() = app.hillforts.findAll()
-
     fun doAddHillfort() {
         view?.navigateTo(VIEW.HILLFORT)
     }
 
     fun doEditHillfort(hillfort: HillfortModel) {
-        view?.navigateTo(VIEW.HILLFORTSLIST, 0, "hillfort_edit", hillfort)
+        view?.navigateTo(VIEW.HILLFORT, 0, "hillfort_edit", hillfort)
     }
 
     fun doShowHillfortsMap() {
         view?.navigateTo(VIEW.MAPS)
     }
 
-    fun loadPlacemarks() {
-        view?.showPlacemarks(app.placemarks.findAll())
+    fun loadHillforts() {
+        view?.showHillforts(app.hillforts.findAll())
     }
 }
