@@ -1,11 +1,18 @@
 package org.wit.hillforts.views.Hillfort
 
+import android.annotation.SuppressLint
 import android.content.Intent
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationCallback
+import com.google.android.gms.location.LocationResult
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.jetbrains.anko.intentFor
+import org.wit.hillforts.helpers.checkLocationPermissions
+import org.wit.hillforts.helpers.isPermissionGranted
 import org.wit.hillforts.helpers.showImagePicker
 import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.Location
@@ -13,6 +20,7 @@ import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.views.BasePresenter
 import org.wit.hillforts.views.BaseView
 import org.wit.hillforts.views.Map.MapView
+import org.wit.hillforts.views.VIEW
 
 class HillfortPresenter(view: BaseView): BasePresenter(view) {
 
@@ -22,6 +30,8 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
     var hillfort = HillfortModel()
     var location = Location(52.245696, -7.139102, 15f)
     var edit = false
+    var locationService: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(view)
+
 
     init {
         //app = view.application as MainApp
@@ -30,10 +40,28 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
             hillfort = view.intent.extras?.getParcelable<HillfortModel>("hillfort_edit")!!
             view.showHillfort(hillfort)
         } else {
-            hillfort.lat = location.lat
-            hillfort.lng = location.lng
+            //hillfort.lat = location.lat
+            //hillfort.lng = location.lng
+            if (checkLocationPermissions(view)) {
+                doSetCurrentLocation()
+            }
         }
     }
+    @SuppressLint("MissingPermission")
+    fun doSetCurrentLocation() {
+        locationService.lastLocation.addOnSuccessListener {
+            locationUpdate(it.latitude, it.longitude)
+        }
+    }
+
+    override fun doRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        if (isPermissionGranted(requestCode, grantResults)) {
+            doSetCurrentLocation()
+        } else {
+            locationUpdate(location.lat, location.lng)
+        }
+    }
+
     fun doConfigureMap(m: GoogleMap) {
         map = m
         locationUpdate(hillfort.lat, hillfort.lng)

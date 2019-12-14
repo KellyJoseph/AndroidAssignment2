@@ -10,6 +10,8 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import kotlinx.android.synthetic.main.content_hillfort_maps.*
@@ -33,6 +35,7 @@ class HillfortView : BaseView(), AnkoLogger {
     val IMAGE_REQUEST = 1
     val LOCATION_REQUEST = 2
     var edit = false
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
