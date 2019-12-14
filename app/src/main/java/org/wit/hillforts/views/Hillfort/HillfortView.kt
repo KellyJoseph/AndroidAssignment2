@@ -57,6 +57,7 @@ class HillfortView : BaseView(), AnkoLogger {
             checkbox.isChecked, dateVisited)}
         //hillfortLocation.setOnClickListener(){ presenter.doSetLocation()}
         chooseImage.setOnClickListener(){ presenter.doSelectImage()}
+        deleteImage.setOnClickListener() { presenter.doDeleteImage()}
     }
 
     override fun showHillfort(hillfort: HillfortModel) {
@@ -159,6 +160,7 @@ class HillfortView : BaseView(), AnkoLogger {
     override fun onResume() {
         super.onResume()
         hillfortMap.onResume()
+        presenter.doResartLocationUpdates()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

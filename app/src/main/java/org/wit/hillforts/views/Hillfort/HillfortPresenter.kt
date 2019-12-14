@@ -12,6 +12,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import org.jetbrains.anko.intentFor
 import org.wit.hillforts.helpers.checkLocationPermissions
+import org.wit.hillforts.helpers.createDefaultLocationRequest
 import org.wit.hillforts.helpers.isPermissionGranted
 import org.wit.hillforts.helpers.showImagePicker
 import org.wit.hillforts.main.MainApp
@@ -26,6 +27,7 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
 
     val IMAGE_REQUEST = 1
     val LOCATION_REQUEST = 2
+    val locationRequest = createDefaultLocationRequest()
     var map: GoogleMap? = null
     var hillfort = HillfortModel()
     var location = Location(52.245696, -7.139102, 15f)
@@ -102,7 +104,7 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
         view?.finish()
     }
     fun doDeleteImage(){
-        app.hillforts.deleteImage(hillfort, 0)
+        app.hillforts.deleteImage(hillfort, hillfort.images.size -1)
         view?.finish()
     }
     fun doSelectImage() {
@@ -118,6 +120,21 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
             location.zoom = hillfort.zoom
         }
         view?.startActivityForResult(view?.intentFor<MapView>()?.putExtra("location", location), LOCATION_REQUEST)
+    }
+
+    @SuppressLint("MissingPermission")
+    fun doResartLocationUpdates() {
+        var locationCallback = object : LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult?) {
+                if (locationResult != null && locationResult.locations != null) {
+                    val l = locationResult.locations.last()
+                    locationUpdate(l.latitude, l.longitude)
+                }
+            }
+        }
+        if (!edit) {
+            locationService.requestLocationUpdates(locationRequest, locationCallback, null)
+        }
     }
 
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
