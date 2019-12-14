@@ -10,7 +10,9 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import com.google.android.gms.maps.GoogleMap
 import kotlinx.android.synthetic.main.activity_hillfort.*
+import kotlinx.android.synthetic.main.content_hillfort_maps.*
 import org.wit.hillforts.R
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
@@ -24,6 +26,7 @@ import java.util.*
 
 class HillfortView : BaseView(), AnkoLogger {
     lateinit var presenter: HillfortPresenter
+    lateinit var map: GoogleMap
     var hillfort = HillfortModel()
     var dateVisited = String()
     lateinit var app: MainApp
@@ -34,32 +37,22 @@ class HillfortView : BaseView(), AnkoLogger {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort)
-        init(toolbarAdd)
+        super.init(toolbarAdd)
         toolbarAdd.title = title
 
         presenter = initPresenter (HillfortPresenter(this)) as HillfortPresenter
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        if (intent.hasExtra("hillfort_edit")) {
-            edit = true
-            hillfort = intent.extras?.getParcelable<HillfortModel>("hillfort_edit")!!
-            hillfortName.setText(hillfort.name)
-            description.setText(hillfort.description)
-            notes.setText(hillfort.notes)
-            var date = hillfort.visitedDate
-            var dateText = "$date last visited"
-            visitedDateDisplay.setText(dateText)
-            checkbox.setChecked(hillfort.visited)
-            if (hillfort.images.size > 0) {
-                hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.images.last()))
-            }
-            btnAdd.setText("Save")
-            deleteImage.setOnClickListener() { presenter.doDeleteImage()}
+        hillfortMap.onCreate(savedInstanceState);
+        hillfortMap.getMapAsync {
+            presenter.doConfigureMap(it)
+            it.setOnMapClickListener { presenter.doSetLocation() }
         }
+
         btnAdd.setOnClickListener() {presenter.doAddOrSave(hillfortName.text.toString(),
             description.text.toString(), notes.text.toString(), presenter.app.loggedInUser.id,
             checkbox.isChecked, dateVisited)}
-        hillfortLocation.setOnClickListener(){ presenter.doSetLocation()}
+        //hillfortLocation.setOnClickListener(){ presenter.doSetLocation()}
         chooseImage.setOnClickListener(){ presenter.doSelectImage()}
     }
 
@@ -142,6 +135,31 @@ class HillfortView : BaseView(), AnkoLogger {
                     hillfort.zoom = location.zoom
                 }
             }
+
         }
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        hillfortMap.onDestroy()
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        hillfortMap.onLowMemory()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        hillfortMap.onPause()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        hillfortMap.onResume()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        hillfortMap.onSaveInstanceState(outState)
     }
 }
