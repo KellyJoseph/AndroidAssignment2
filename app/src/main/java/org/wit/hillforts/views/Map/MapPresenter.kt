@@ -8,9 +8,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.wit.hillforts.models.Location
+import org.wit.hillforts.views.BasePresenter
+import org.wit.hillforts.views.BaseView
 import org.wit.hillforts.views.Map.MapView
 
-class MapPresenter(val view: MapView) {
+class MapPresenter(view: BaseView) : BasePresenter(view) {
 
     var location = Location()
 
@@ -18,7 +20,7 @@ class MapPresenter(val view: MapView) {
         location = view.intent.extras?.getParcelable<Location>("location")!!
     }
 
-    fun initMap(map: GoogleMap) {
+    fun doConfigure(map: GoogleMap) {
         val loc = LatLng(location.lat, location.lng)
         val options = MarkerOptions()
             .title("Hillfort")
@@ -35,11 +37,18 @@ class MapPresenter(val view: MapView) {
         location.zoom = zoom
     }
 
+    fun doSave() {
+        val resultIntent = Intent()
+        resultIntent.putExtra("location", location)
+        view?.setResult(0, resultIntent)
+        view?.finish()
+    }
+
     fun doOnBackPressed() {
         val resultIntent = Intent()
         resultIntent.putExtra("location", location)
-        view.setResult(Activity.RESULT_OK, resultIntent)
-        view.finish()
+        view?.setResult(Activity.RESULT_OK, resultIntent)
+        view?.finish()
     }
 
     fun doUpdateMarker(marker: Marker) {

@@ -7,8 +7,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import org.wit.hillfort.activities.MapPresenter
 import org.wit.hillforts.R
+import org.wit.hillforts.views.BaseView
 
-class MapView : AppCompatActivity(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener {
+class MapView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.OnMarkerClickListener {
 
     lateinit var map: GoogleMap
     lateinit var presenter: MapPresenter
@@ -22,7 +23,7 @@ class MapView : AppCompatActivity(), GoogleMap.OnMarkerDragListener, GoogleMap.O
             map = it
             map.setOnMarkerDragListener(this)
             map.setOnMarkerClickListener(this)
-            presenter.initMap(map)
+            presenter.doConfigure(map)
         }
     }
 
