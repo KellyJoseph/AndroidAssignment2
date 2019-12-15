@@ -8,7 +8,7 @@ interface HillfortStore {
     fun create(hillfort: HillfortModel)
     fun update(hillfort: HillfortModel)
     fun delete(hillfort: HillfortModel)
-    fun deleteImage(hillfort: HillfortModel, number: Int)
+    fun deleteImage(hillfort: HillfortModel)
     fun register(user: UserModel)
     fun login(email: String, password: String): UserModel?
 }

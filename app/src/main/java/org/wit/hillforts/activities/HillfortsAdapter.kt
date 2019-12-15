@@ -42,14 +42,7 @@ class HillfortsAdapter constructor(
             itemView.hillfortName.text = hillfort.name
             itemView.description.text = hillfort.description
             itemView.dateVisited.text = hillfort.visitedDate
-            if (hillfort.images.size > 0) {
-                itemView.imageIcon.setImageBitmap(
-                    readImageFromPath(
-                        itemView.context,
-                        hillfort.images.last()
-                    )
-                )
-            }
+            itemView.imageIcon.setImageBitmap(readImageFromPath(itemView.context, hillfort.image))
             itemView.setOnClickListener { listener.onHillfortClick(hillfort) }
         }
     }

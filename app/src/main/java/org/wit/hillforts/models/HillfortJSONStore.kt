@@ -63,21 +63,21 @@ class HillfortJSONStore: HillfortStore, AnkoLogger {
         serialize(HILLFORTS_FILE)
     }
     override fun delete(hillfort: HillfortModel) {
-        //var foundHillfort: HillfortModel? = hillforts.find { p -> p.id == hillfort.id }
-        hillforts.remove(hillfort)
-        serialize(HILLFORTS_FILE)
+        var foundHillfort: HillfortModel? = hillforts.find { p -> p.id == hillfort.id }
+        if (foundHillfort != null) {
+            hillforts.remove(hillfort)
+            serialize(HILLFORTS_FILE)
+        }
     }
 
     override fun findById(id:Long) : HillfortModel? {
         val foundHillfort: HillfortModel? = hillforts.find { it.id == id }
         return foundHillfort
     }
-    override fun deleteImage(hillfort: HillfortModel, number: Int) {
+    override fun deleteImage(hillfort: HillfortModel) {
         var foundHillfort: HillfortModel? = hillforts.find { p -> p.id == hillfort.id }
         if (foundHillfort != null) {
-            if (foundHillfort.images.size >= number && foundHillfort.images.isNotEmpty()) {
-                foundHillfort.images.removeAt(number)
-            }
+            hillfort.image = ""
         }
         serialize(HILLFORTS_FILE)
     }
@@ -101,7 +101,7 @@ class HillfortJSONStore: HillfortStore, AnkoLogger {
             foundHillfort.visited = hillfort.visited
             foundHillfort.visitedDate = hillfort.visitedDate
             //foundHillfort.image = hillfort.image
-            foundHillfort.images = hillfort.images
+            foundHillfort.image = hillfort.image
             foundHillfort.lat = hillfort.lat
             foundHillfort.lng = hillfort.lng
             foundHillfort.zoom = hillfort.zoom

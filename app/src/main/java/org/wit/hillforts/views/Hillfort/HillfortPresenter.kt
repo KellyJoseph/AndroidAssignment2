@@ -104,7 +104,7 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
         view?.finish()
     }
     fun doDeleteImage(){
-        app.hillforts.deleteImage(hillfort, hillfort.images.size -1)
+        app.hillforts.deleteImage(hillfort)
         view?.finish()
     }
     fun doSelectImage() {
@@ -140,7 +140,7 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         when(requestCode) {
             IMAGE_REQUEST -> {
-                hillfort.images.add(data.getData().toString())
+                hillfort.image = data.getData().toString()
             }
             LOCATION_REQUEST -> {
                 if (data != null) {

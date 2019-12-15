@@ -63,12 +63,7 @@ class HillfortView : BaseView(), AnkoLogger {
     override fun showHillfort(hillfort: HillfortModel) {
         hillfortName.setText(hillfort.name)
         description.setText(hillfort.description)
-        if (hillfort.images.size > 0) {
-            hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.images.last()))
-        }
-        if (!hillfort.images.isEmpty()) {
-            chooseImage.setText(R.string.change_hillfort_image)
-        }
+        hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.image))
         btnAdd.setText(R.string.save_hillfort)
     }
 
@@ -122,14 +117,9 @@ class HillfortView : BaseView(), AnkoLogger {
         when (requestCode) {
             IMAGE_REQUEST -> {
                 if (data != null) {
-                    if (hillfort.images.size > 4) {
-                        toast("You cannot upload more than 4 images")
-                    }
-                    else {
-                        hillfort.images.add(data.getData().toString())
+                        hillfort.image = data.getData().toString()
                     }
                     chooseImage.setText(R.string.change_hillfort_image)
-                }
             }
             LOCATION_REQUEST -> {
                 if (data != null) {
