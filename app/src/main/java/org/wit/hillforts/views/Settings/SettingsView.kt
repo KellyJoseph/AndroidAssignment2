@@ -17,7 +17,6 @@ import org.wit.hillforts.views.BaseView
 
 class SettingsView: BaseView(), AnkoLogger {
 
-    //lateinit var app: MainApp
     lateinit var presenter: SettingsPresenter
     var user = UserModel()
 
@@ -30,7 +29,6 @@ class SettingsView: BaseView(), AnkoLogger {
 
         info("User Activity started..")
 
-        //var app = application as MainApp
         presenter = initPresenter(SettingsPresenter(this)) as SettingsPresenter
 
         var user = presenter.app.loggedInUser
@@ -38,17 +36,13 @@ class SettingsView: BaseView(), AnkoLogger {
         editLastName.setText(user.lastName)
         editPassword.setText(user.password)
         editEmail.setText(user.email)
-        //var noVisited = app.hillforts.findVisitedHillfortsByUser(app.loggedInUser).size
-        //var noRecorded = app.hillforts.findAllByUser(app.loggedInUser).size
-        //var total = app.hillforts.findAll().size
-        var total = presenter.doGetAllHillforts()
-        var visited = presenter.doGetVisited()
-        //userVisited.text = "Hillforts visited: $noVisited"
-        //userRecorded.text = "Hillforts recorded: $noRecorded"
-        //totalNumber.text = "Total hillforts: $total"
+        presenter.doGetAllHillforts()
+        presenter.doGetAllHillfortsByUser()
+        presenter.doGetAllVisitedHillfortsByUser()
+
 
         editUserSubmit.setOnClickListener() {
-            //user.firstName= editFirstName.text.toString()
+            user.firstName= editFirstName.text.toString()
             user.lastName = editLastName.text.toString()
             user.password = editPassword.text.toString()
             user.id = user.id
@@ -65,6 +59,10 @@ class SettingsView: BaseView(), AnkoLogger {
     }
     override fun showTotal(number: Int) {
         totalNumber.text = "Total hillforts: $number"
+    }
+
+    override fun showUserHillforts(number: Int) {
+        userRecorded.text = "User recorded: $number"
     }
 
     override fun showVisited(number: Int) {

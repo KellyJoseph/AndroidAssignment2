@@ -26,12 +26,9 @@ class HillfortStoreRoom(val context: Context) : HillfortStore {
         return dao.findAllByUser(authorId)
     }
 
-    override fun findAllVisitedByUser(user: UserModel): List<HillfortModel> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     override fun findVisitedHillfortsByUser(user: UserModel): List<HillfortModel> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        var authorId = user.id
+        return dao.findVisitedHillfortsByUser(authorId)
     }
 
     override fun deleteImage(hillfort: HillfortModel) {

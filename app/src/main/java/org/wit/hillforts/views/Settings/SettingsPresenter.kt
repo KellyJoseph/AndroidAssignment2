@@ -16,7 +16,17 @@ class SettingsPresenter (view: BaseView): BasePresenter(view) {
         }
     }
 
-    fun doGetVisited() {
+
+    fun doGetAllHillfortsByUser() {
+        doAsync {
+            val hillforts = app.hillforts.findAllByUser(app.loggedInUser).size
+            uiThread {
+                view?.showUserHillforts(hillforts)
+            }
+        }
+    }
+
+    fun doGetAllVisitedHillfortsByUser() {
         doAsync {
             val hillforts = app.hillforts.findAllByUser(app.loggedInUser).size
             uiThread {
@@ -24,7 +34,6 @@ class SettingsPresenter (view: BaseView): BasePresenter(view) {
             }
         }
     }
-
     fun loadHillforts() {
         //view?.showHillforts(app.hillforts.findAll())
         doAsync {
@@ -35,7 +44,4 @@ class SettingsPresenter (view: BaseView): BasePresenter(view) {
         }
     }
 
-
-    fun doGetAllHillfortsByUser() {
-    }
 }
