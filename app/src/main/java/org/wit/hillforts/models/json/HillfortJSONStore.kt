@@ -1,4 +1,4 @@
-package org.wit.hillforts.models
+package org.wit.hillforts.models.json
 
 import android.content.Context
 import com.google.gson.Gson
@@ -8,6 +8,9 @@ import org.jetbrains.anko.AnkoLogger
 import org.wit.hillforts.helpers.exists
 import org.wit.hillforts.helpers.read
 import org.wit.hillforts.helpers.write
+import org.wit.hillforts.models.HillfortModel
+import org.wit.hillforts.models.HillfortStore
+import org.wit.hillforts.models.UserModel
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -110,7 +113,9 @@ class HillfortJSONStore: HillfortStore, AnkoLogger {
     }
 
     private fun serialize(fileType: String) {
-        val jsonString = gsonBuilder.toJson(hillforts, listTypeHillfort)
+        val jsonString = gsonBuilder.toJson(hillforts,
+            listTypeHillfort
+        )
         write(context, fileType, jsonString)
     }
 
