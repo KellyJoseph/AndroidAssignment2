@@ -9,7 +9,7 @@ import org.jetbrains.anko.AnkoLogger
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.views.Hillfort.HillfortView
 import org.wit.hillforts.views.HillfortList.HillfortListView
-import org.wit.hillforts.views.HillfortMaps.HillfortsMapView
+import org.wit.hillforts.views.HillfortsMap.HillfortsMapView
 
 val IMAGE_REQUEST = 1
 val LOCATION_REQUEST = 2
@@ -64,6 +64,9 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
 
     open fun showHillfort(hillfort: HillfortModel) {}
     open fun showHillforts(hillforts: List<HillfortModel>) {}
+    open fun showTotal(number:Int) {}
+    open fun showVisited(number: Int) {}
+    open fun showUserHillforts(number: Int) {}
     open fun showProgress() {}
     open fun hideProgress() {}
 }

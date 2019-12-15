@@ -3,21 +3,16 @@ package org.wit.hillforts.views.HillfortList
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
-import org.jetbrains.anko.intentFor
-import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import org.wit.hillforts.R
 import org.wit.hillforts.activities.*
-import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.models.UserModel
 import org.wit.hillforts.views.BaseView
-import org.wit.hillforts.views.HillfortMaps.HillfortsMapView
-import org.wit.hillforts.views.Hillfort.HillfortView
+import org.wit.hillforts.views.Settings.SettingsView
 
 class HillfortListView: BaseView(), HillfortListener {
 
@@ -32,12 +27,13 @@ class HillfortListView: BaseView(), HillfortListener {
 
         val data = intent.extras
         val user = data!!.getParcelable<UserModel>("user")
-        toast("welcome ${user?.firstName}")
+        toast("welcome ${user!!.firstName}")
         //app = application as MainApp
         //var visitedHillforts = app.hillforts.findVisitedHillfortsByUser(app.loggedInUser)
         //app.visitedHillforts = visitedHillforts
 
         presenter = initPresenter(HillfortListPresenter(this)) as HillfortListPresenter
+        presenter.app.loggedInUser = user
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
@@ -60,7 +56,7 @@ class HillfortListView: BaseView(), HillfortListener {
         when (item?.itemId) {
             R.id.item_add -> presenter.doAddHillfort()
             R.id.item_map -> presenter.doShowHillfortsMap()
-            R.id.settings -> startActivityForResult<UserActivity>(0)
+            R.id.settings -> startActivityForResult<SettingsView>(0)
             R.id.logout -> startActivity(Intent(this, LoginActivity::class.java))
         }
         return super.onOptionsItemSelected(item)

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.wit.hillforts.views.HillfortMaps.HillfortsMapView">
+    tools:context="org.wit.hillforts.views.HillfortsMap.HillfortsMapView">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

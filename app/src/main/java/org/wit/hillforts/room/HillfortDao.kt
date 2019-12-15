@@ -2,6 +2,7 @@ package org.wit.hillforts.room
 
 import androidx.room.*
 import org.wit.hillforts.models.HillfortModel
+import org.wit.hillforts.models.UserModel
 
 @Dao
 interface HillfortDao {
@@ -14,6 +15,9 @@ interface HillfortDao {
 
     @Query("select * from HillfortModel where id = :id")
     fun findById(id: Long): HillfortModel
+
+    @Query("select * from HillfortModel where authorId = :authorId")
+    fun findAllByUser(authorId: Long): List<HillfortModel>
 
     @Update
     fun update(hillfort: HillfortModel)

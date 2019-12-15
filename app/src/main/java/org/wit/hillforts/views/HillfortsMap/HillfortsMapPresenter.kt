@@ -1,4 +1,4 @@
-package org.wit.hillforts.views.HillfortMaps
+package org.wit.hillforts.views.HillfortsMap
 
 
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -8,18 +8,11 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
-import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.views.BasePresenter
 import org.wit.hillforts.views.BaseView
 
 class HillfortsMapPresenter(view: BaseView): BasePresenter(view) {
-
-    //var app: MainApp
-
-    //init {
-    //    app = view.application as MainApp
-   // }
 
     fun doPopulateMap(map: GoogleMap, hillforts: List<HillfortModel>) {
         map.uiSettings.setZoomControlsEnabled(true)
@@ -47,7 +40,7 @@ class HillfortsMapPresenter(view: BaseView): BasePresenter(view) {
         doAsync {
             val hillforts = app.hillforts.findAll()
             uiThread {
-                view?.showHillforts(app.hillforts.findAll())
+                view?.showHillforts(hillforts)
             }
         }
     }

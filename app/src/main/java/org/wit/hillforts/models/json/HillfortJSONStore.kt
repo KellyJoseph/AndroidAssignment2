@@ -50,6 +50,10 @@ class HillfortJSONStore: HillfortStore, AnkoLogger {
         return userHillfortList
     }
 
+    override fun findAllVisitedByUser(user: UserModel): List<HillfortModel> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     override fun findVisitedHillfortsByUser(user: UserModel): MutableList<HillfortModel> {
         val visitedUserHillfortList = mutableListOf<HillfortModel>()
         hillforts.forEach {

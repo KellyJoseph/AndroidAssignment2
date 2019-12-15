@@ -22,6 +22,11 @@ class HillfortStoreRoom(val context: Context) : HillfortStore {
     }
 
     override fun findAllByUser(user: UserModel): List<HillfortModel> {
+        var authorId = user.id
+        return dao.findAllByUser(authorId)
+    }
+
+    override fun findAllVisitedByUser(user: UserModel): List<HillfortModel> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
