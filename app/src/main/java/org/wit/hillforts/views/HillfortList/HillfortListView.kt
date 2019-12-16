@@ -28,9 +28,6 @@ class HillfortListView: BaseView(), HillfortListener {
         val data = intent.extras
         val user = data!!.getParcelable<UserModel>("user")
         toast("welcome ${user!!.firstName}")
-        //app = application as MainApp
-        //var visitedHillforts = app.hillforts.findVisitedHillfortsByUser(app.loggedInUser)
-        //app.visitedHillforts = visitedHillforts
 
         presenter = initPresenter(HillfortListPresenter(this)) as HillfortListPresenter
         presenter.app.loggedInUser = user
@@ -57,7 +54,8 @@ class HillfortListView: BaseView(), HillfortListener {
             R.id.item_add -> presenter.doAddHillfort()
             R.id.item_map -> presenter.doShowHillfortsMap()
             R.id.settings -> startActivityForResult<SettingsView>(0)
-            R.id.logout -> startActivity(Intent(this, LoginActivity::class.java))
+            //R.id.logout -> startActivity(Intent(this, LoginActivity::class.java))
+            R.id.item_logout ->presenter.doLogout()
         }
         return super.onOptionsItemSelected(item)
     }

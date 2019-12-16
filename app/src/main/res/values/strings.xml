@@ -44,4 +44,7 @@
     <string name="placemark_image_placeholder">Placemark Image</string>
     <string name="placemark_title_placeholder">Placemark Title</string>
     <string name="placemark_description_placeholder">Placemark Description</string>
+
+    <string name="menu_showMap">Show Map</string>
+    <string name="menu_logout">Logout</string>
 </resources>
