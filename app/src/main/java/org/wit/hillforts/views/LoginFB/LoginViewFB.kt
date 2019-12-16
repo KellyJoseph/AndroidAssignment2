@@ -1,22 +1,21 @@
-package org.wit.hillforts.views.login
+package org.wit.hillforts.views.LoginFB
 
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_login2.*
 import org.jetbrains.anko.toast
 import org.wit.hillforts.R
 import org.wit.hillforts.views.BaseView
-import org.wit.hillforts.views.login.LoginPresenter
 
-class LoginView : BaseView() {
+class LoginViewFB : BaseView() {
 
-    lateinit var presenter: LoginPresenter
+    lateinit var presenter: LoginPresenterFB
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login2)
         init(toolbar)
 
-        presenter = initPresenter(LoginPresenter(this)) as LoginPresenter
+        presenter = initPresenter(LoginPresenterFB(this)) as LoginPresenterFB
 
         signUp.setOnClickListener {
             val email = email.text.toString()

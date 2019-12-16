@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "560879299175",
+    "firebase_url": "https://jkhillfortsassignment2.firebaseio.com",
+    "project_id": "jkhillfortsassignment2",
+    "storage_bucket": "jkhillfortsassignment2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560879299175:android:052439bbfc2639c4df42c2",
+        "android_client_info": {
+          "package_name": "com.wit.hillforts"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560879299175-a9ep12adhh8p07s7p0t6n7cju1kv8iml.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.wit.hillforts",
+            "certificate_hash": "c634cb08a6565d5d0149a3674e1ee21e48afffee"
+          }
+        },
+        {
+          "client_id": "560879299175-ftnjrt7g0cvjg4gf3fn3cscrm4hfgcfo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC44b9G-9pnB-83uzQS2UmaNv9nE0e1_6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "560879299175-ftnjrt7g0cvjg4gf3fn3cscrm4hfgcfo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
