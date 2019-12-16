@@ -15,11 +15,11 @@ class MainApp: Application(), AnkoLogger {
     lateinit var hillforts: HillfortStore
     lateinit var users: UserStore
     lateinit var loggedInUser: UserModel
-    lateinit var visitedHillforts: List<HillfortModel>
+    lateinit var favoriteHillforts: List<HillfortModel>
 
     override fun onCreate() {
         super.onCreate()
-        //hillforts = HillfortkMemStore()
+        //hillforts = HillfortMemStore()
         users = UsersJSONStore(applicationContext)
         //hillforts = HillfortJSONStore(applicationContext)
         hillforts = HillfortStoreRoom(applicationContext)

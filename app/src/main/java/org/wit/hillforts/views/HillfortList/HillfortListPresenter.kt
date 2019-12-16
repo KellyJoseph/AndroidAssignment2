@@ -1,14 +1,10 @@
 package org.wit.hillforts.views.HillfortList
 
 import org.jetbrains.anko.doAsync
-import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.HillfortModel
-
-import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.uiThread
 import org.wit.hillforts.views.BasePresenter
 import org.wit.hillforts.views.BaseView
-import org.wit.hillforts.views.Hillfort.HillfortView
 import org.wit.hillforts.views.VIEW
 
 class HillfortListPresenter(view: BaseView): BasePresenter(view) {

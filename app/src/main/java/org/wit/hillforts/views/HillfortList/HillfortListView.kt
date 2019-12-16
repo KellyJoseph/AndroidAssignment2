@@ -16,7 +16,6 @@ import org.wit.hillforts.views.Settings.SettingsView
 
 class HillfortListView: BaseView(), HillfortListener {
 
-    //lateinit var app: MainApp
     lateinit var presenter: HillfortListPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -42,7 +41,6 @@ class HillfortListView: BaseView(), HillfortListener {
         recyclerView.adapter?.notifyDataSetChanged()
     }
 
-    //just add the + button
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
@@ -54,7 +52,6 @@ class HillfortListView: BaseView(), HillfortListener {
             R.id.item_add -> presenter.doAddHillfort()
             R.id.item_map -> presenter.doShowHillfortsMap()
             R.id.settings -> startActivityForResult<SettingsView>(0)
-            //R.id.logout -> startActivity(Intent(this, LoginActivity::class.java))
             R.id.item_logout ->presenter.doLogout()
         }
         return super.onOptionsItemSelected(item)
@@ -66,8 +63,6 @@ class HillfortListView: BaseView(), HillfortListener {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        //loadHillfortsByUser()
-        //recyclerView.adapter?.notifyDataSetChanged()
         presenter.loadHillforts()
         super.onActivityResult(requestCode, resultCode, data)
     }

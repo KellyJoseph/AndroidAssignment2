@@ -1,14 +1,13 @@
 package org.wit.hillforts.views.EditLocation
 
+import org.wit.hillfort.activities.EditLocationPresenter
 
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.Marker
 import kotlinx.android.synthetic.main.activity_edit_location.*
-import org.wit.hillfort.activities.EditLocationPresenter
 import org.wit.hillforts.R
 import org.wit.hillforts.views.BaseView
 
@@ -47,18 +46,13 @@ class EditLocationView : BaseView(), GoogleMap.OnMarkerDragListener, GoogleMap.O
 
     override fun onMarkerDragStart(marker: Marker) {}
 
-    override fun showLocation(latitude : Double, longitude : Double) {
-        lat.setText("%.6f".format(latitude))
-        lng.setText("%.6f".format(longitude))
-    }
-
     override fun onMarkerDrag(marker: Marker) {
         lat.setText("%.6f".format(marker.position.latitude))
         lng.setText("%.6f".format(marker.position.longitude))
     }
 
     override fun onMarkerDragEnd(marker: Marker) {
-        presenter.doUpdateLocation(marker.position.latitude, marker.position.longitude, 15f)
+        presenter.doUpdateLocation(marker.position.latitude, marker.position.longitude)
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {

@@ -7,6 +7,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import org.jetbrains.anko.AnkoLogger
 import org.wit.hillforts.models.HillfortModel
+import org.wit.hillforts.models.Location
+import org.wit.hillforts.views.EditLocation.EditLocationView
 import org.wit.hillforts.views.Hillfort.HillfortView
 import org.wit.hillforts.views.HillfortList.HillfortListView
 import org.wit.hillforts.views.HillfortsMap.HillfortsMapView
@@ -16,7 +18,7 @@ val IMAGE_REQUEST = 1
 val LOCATION_REQUEST = 2
 
 enum class VIEW {
-    HILLFORT, HILLFORTSLIST, MAPS, LOGIN
+    HILLFORT, HILLFORTSLIST, EDITLOCATION, LOGIN, MAPS
 }
 
 open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
@@ -27,8 +29,10 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
         var intent = Intent(this, HillfortListView::class.java)
         when (view) {
             VIEW.HILLFORT -> intent = Intent(this, HillfortView::class.java)
-            VIEW.MAPS -> intent = Intent(this, HillfortsMapView::class.java)
+            VIEW.EDITLOCATION -> intent = Intent(this, EditLocationView::class.java)
             VIEW.HILLFORTSLIST -> intent = Intent(this, HillfortListView::class.java)
+            VIEW.MAPS -> intent = Intent(this, HillfortsMapView::class.java)
+
             VIEW.LOGIN -> intent = Intent(this, LoginViewFB::class.java)
         }
         if (key != "") {
@@ -53,8 +57,6 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
         super.onDestroy()
     }
 
-    open fun showLocation(latitude : Double, longitude : Double) {}
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (data != null) {
@@ -66,11 +68,14 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
         basePresenter?.doRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 
+
     open fun showHillfort(hillfort: HillfortModel) {}
     open fun showHillforts(hillforts: List<HillfortModel>) {}
-    open fun showTotal(number:Int) {}
+    //open fun showLocation(latitude : Double, longitude : Double) {}
+    open fun showLocation(location: Location) {}
+    open fun showTotal(number: Int) {}
     open fun showVisited(number: Int) {}
     open fun showUserHillforts(number: Int) {}
     open fun showProgress() {}
     open fun hideProgress() {}
-}
+    }

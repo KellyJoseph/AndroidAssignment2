@@ -110,9 +110,10 @@ class HillfortJSONStore: HillfortStore, AnkoLogger {
             foundHillfort.visitedDate = hillfort.visitedDate
             //foundHillfort.image = hillfort.image
             foundHillfort.image = hillfort.image
-            foundHillfort.lat = hillfort.lat
-            foundHillfort.lng = hillfort.lng
-            foundHillfort.zoom = hillfort.zoom
+            //foundHillfort.lat = hillfort.lat
+            //foundHillfort.lng = hillfort.lng
+            //foundHillfort.zoom = hillfort.zoom
+            foundHillfort.location = hillfort.location
         }
         serialize(HILLFORTS_FILE)
     }

@@ -1,6 +1,5 @@
 package org.wit.hillfort.activities
 
-import android.app.Activity
 import android.content.Intent
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -22,32 +21,23 @@ class EditLocationPresenter(view: BaseView) : BasePresenter(view) {
     fun doConfigureMap(map: GoogleMap) {
         val loc = LatLng(location.lat, location.lng)
         val options = MarkerOptions()
-            .title("Hillfort")
+            .title("Placemark")
             .snippet("GPS : " + loc.toString())
             .draggable(true)
             .position(loc)
         map.addMarker(options)
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, location.zoom))
-        view?.showLocation(loc.latitude, loc.longitude);
     }
 
-    fun doUpdateLocation(lat: Double, lng: Double, zoom: Float) {
+    fun doUpdateLocation(lat: Double, lng: Double) {
         location.lat = lat
         location.lng = lng
-        location.zoom = zoom
     }
 
     fun doSave() {
         val resultIntent = Intent()
         resultIntent.putExtra("location", location)
         view?.setResult(0, resultIntent)
-        view?.finish()
-    }
-
-    fun doOnBackPressed() {
-        val resultIntent = Intent()
-        resultIntent.putExtra("location", location)
-        view?.setResult(Activity.RESULT_OK, resultIntent)
         view?.finish()
     }
 
