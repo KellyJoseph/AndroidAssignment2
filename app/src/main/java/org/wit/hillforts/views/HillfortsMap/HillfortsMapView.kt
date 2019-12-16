@@ -44,7 +44,8 @@ class HillfortsMapView: BaseView(), GoogleMap.OnMarkerClickListener {
         app.hillforts.findAll().forEach() {
             var loc = LatLng(it.lat, it.lng)
             val options = MarkerOptions().title(it.name).position(loc)
-            map.addMarker(options).tag = it.id
+            //map.addMarker(options).tag = it.id
+            map.addMarker(options).tag = it
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.zoom))
             map.setOnMarkerClickListener(this)
         }
@@ -61,8 +62,8 @@ class HillfortsMapView: BaseView(), GoogleMap.OnMarkerClickListener {
     }
 
     override fun onMarkerClick(marker: Marker): Boolean {
-        //currentName.text = marker.title
-        //val tag = marker.tag as Long
+        currentName.text = marker.title
+        val tag = marker.tag as HillfortModel
         //val placemark = app.hillforts.findById(tag)
         //currentDescription.text = placemark!!.description
         //currentImage.setImageBitmap(readImageFromPath(this, placemark.images.last()))

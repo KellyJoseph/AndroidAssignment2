@@ -11,4 +11,5 @@ interface HillfortStore {
     fun deleteImage(hillfort: HillfortModel)
     fun register(user: UserModel)
     fun login(email: String, password: String): UserModel?
+    fun clear()
 }

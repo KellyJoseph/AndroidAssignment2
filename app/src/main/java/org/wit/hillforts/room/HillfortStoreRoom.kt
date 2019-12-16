@@ -21,6 +21,9 @@ class HillfortStoreRoom(val context: Context) : HillfortStore {
         return dao.findAll()
     }
 
+    override fun clear() {
+    }
+
     override fun findAllByUser(user: UserModel): List<HillfortModel> {
         var authorId = user.id
         return dao.findAllByUser(authorId)

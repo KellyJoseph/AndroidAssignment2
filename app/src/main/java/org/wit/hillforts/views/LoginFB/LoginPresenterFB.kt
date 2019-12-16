@@ -7,7 +7,7 @@ import org.wit.hillforts.views.VIEW
 class LoginPresenterFB(view: BaseView) : BasePresenter(view) {
 
     fun doLogin(email: String, password: String) {
-        view?.navigateTo(VIEW.HILLFORTSLIST)
+        var res = app.users.login(email, password)
     }
 
     fun doSignUp(email: String, password: String) {

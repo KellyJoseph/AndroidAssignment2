@@ -78,6 +78,10 @@ class HillfortJSONStore: HillfortStore, AnkoLogger {
         val foundHillfort: HillfortModel? = hillforts.find { it.id == id }
         return foundHillfort
     }
+
+    override fun clear() {
+        hillforts.clear()
+    }
     override fun deleteImage(hillfort: HillfortModel) {
         var foundHillfort: HillfortModel? = hillforts.find { p -> p.id == hillfort.id }
         if (foundHillfort != null) {

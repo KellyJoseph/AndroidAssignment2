@@ -53,6 +53,7 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
         super.onDestroy()
     }
 
+    open fun showLocation(latitude : Double, longitude : Double) {}
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
