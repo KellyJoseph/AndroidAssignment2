@@ -10,9 +10,8 @@ import com.google.android.gms.maps.model.MarkerOptions
 import org.wit.hillforts.models.Location
 import org.wit.hillforts.views.BasePresenter
 import org.wit.hillforts.views.BaseView
-import org.wit.hillforts.views.Map.MapView
 
-class MapPresenter(view: BaseView) : BasePresenter(view) {
+class EditLocationPresenter(view: BaseView) : BasePresenter(view) {
 
     var location = Location()
 
@@ -20,7 +19,7 @@ class MapPresenter(view: BaseView) : BasePresenter(view) {
         location = view.intent.extras?.getParcelable<Location>("location")!!
     }
 
-    fun doConfigure(map: GoogleMap) {
+    fun doConfigureMap(map: GoogleMap) {
         val loc = LatLng(location.lat, location.lng)
         val options = MarkerOptions()
             .title("Hillfort")

@@ -17,13 +17,11 @@ import org.wit.hillforts.helpers.checkLocationPermissions
 import org.wit.hillforts.helpers.createDefaultLocationRequest
 import org.wit.hillforts.helpers.isPermissionGranted
 import org.wit.hillforts.helpers.showImagePicker
-import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.Location
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.views.BasePresenter
 import org.wit.hillforts.views.BaseView
-import org.wit.hillforts.views.Map.MapView
-import org.wit.hillforts.views.VIEW
+import org.wit.hillforts.views.EditLocation.EditLocationView
 
 class HillfortPresenter(view: BaseView): BasePresenter(view) {
 
@@ -125,7 +123,7 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
             location.lng = hillfort.lng
             location.zoom = hillfort.zoom
         }
-        view?.startActivityForResult(view?.intentFor<MapView>()?.putExtra("location", location), LOCATION_REQUEST)
+        view?.startActivityForResult(view?.intentFor<EditLocationView>()?.putExtra("location", location), LOCATION_REQUEST)
     }
 
     @SuppressLint("MissingPermission")

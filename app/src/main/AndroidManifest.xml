@@ -23,8 +23,12 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".views.Map.MapView"
-            android:label="@string/title_activity_map" />
+            android:name=".views.EditLocation.EditLocationView"
+            android:label="@string/title_activity_map">
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value=".views.Hillfort.HillfortView" />
+        </activity>
 
         <activity android:name=".activities.LoginActivity" />
         <activity android:name=".views.LoginFB.LoginViewFB"/>
@@ -32,11 +36,21 @@
 
         <activity
             android:name=".views.Hillfort.HillfortView"
-            android:parentActivityName=".views.HillfortList.HillfortListView"></activity>
+            android:parentActivityName=".views.HillfortList.HillfortListView">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.HillfortList.HillfortListView" />
+        </activity>
 
         <activity
             android:name=".views.Settings.SettingsView"
-            android:parentActivityName=".views.HillfortList.HillfortListView"></activity>
+            android:parentActivityName=".views.HillfortList.HillfortListView">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".views.HillfortList.HillfortListView" />
+        </activity>
+
+
         <activity android:name=".views.HillfortList.HillfortListView" />
 
         <activity

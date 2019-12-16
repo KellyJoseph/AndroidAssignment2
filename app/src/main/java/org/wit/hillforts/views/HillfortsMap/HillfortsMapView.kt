@@ -25,7 +25,7 @@ class HillfortsMapView: BaseView(), GoogleMap.OnMarkerClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hillfort_maps)
         //setSupportActionBar(toolbar)
-        super.init(toolbar)
+        super.init(toolbar, true)
 
         //presenter = HillfortsMapPresenter(this)
         presenter = initPresenter(HillfortsMapPresenter(this)) as HillfortsMapPresenter
