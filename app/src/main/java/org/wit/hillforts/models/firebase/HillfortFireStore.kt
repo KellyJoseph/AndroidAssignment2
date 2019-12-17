@@ -1,28 +1,31 @@
 package org.wit.hillforts.models.firebase
 
 import android.content.Context
-//import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import org.jetbrains.anko.AnkoLogger
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.models.HillfortStore
 import org.wit.hillforts.models.UserModel
 
-class PlacemarkFireStore(val context: Context) : HillfortStore, AnkoLogger {
+class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
 
     val hillforts = ArrayList<HillfortModel>()
-    lateinit var userId: String
     lateinit var db: DatabaseReference
+
+    val user = FirebaseAuth.getInstance().currentUser
+    var userId = user!!.uid
+
 
     override fun findAll(): List<HillfortModel> {
         return hillforts
     }
 
-    override fun findAllByUser(userId: Long): List<HillfortModel> {
+    override fun findAllByUser(userId: String): List<HillfortModel> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun findVisitedHillfortsByUser(userId: Long): List<HillfortModel> {
+    override fun findVisitedHillfortsByUser(userId: String): List<HillfortModel> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -86,7 +89,7 @@ class PlacemarkFireStore(val context: Context) : HillfortStore, AnkoLogger {
                 hillfortsReady()
             }
         }
-        //userId = FirebaseAuth.getInstance().currentUser!!.uid
+        var userId = FirebaseAuth.getInstance().currentUser!!.uid
         db = FirebaseDatabase.getInstance().reference
         hillforts.clear()
         db.child("users").child(userId).child("hillforts").addListenerForSingleValueEvent(valueEventListener)

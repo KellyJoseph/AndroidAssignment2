@@ -87,7 +87,7 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
         view?.showLocation(hillfort.location)
     }
 
-    fun doAddOrSave(name: String, description: String, notes: String, authorId: Long, visited: Boolean, visitedDate: String) {
+    fun doAddOrSave(name: String, description: String, notes: String, authorId: String, visited: Boolean, visitedDate: String) {
         hillfort.name = name
         hillfort.description = description
         hillfort.notes = notes

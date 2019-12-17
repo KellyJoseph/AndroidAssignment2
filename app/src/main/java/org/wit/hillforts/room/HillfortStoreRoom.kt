@@ -24,12 +24,12 @@ class HillfortStoreRoom(val context: Context) : HillfortStore {
     override fun clear() {
     }
 
-    override fun findAllByUser(userId: Long): List<HillfortModel> {
+    override fun findAllByUser(userId: String): List<HillfortModel> {
         var authorId = userId
         return dao.findAllByUser(authorId)
     }
 
-    override fun findVisitedHillfortsByUser(userId: Long): List<HillfortModel> {
+    override fun findVisitedHillfortsByUser(userId: String): List<HillfortModel> {
         var authorId = userId
         return dao.findVisitedHillfortsByUser(authorId)
     }

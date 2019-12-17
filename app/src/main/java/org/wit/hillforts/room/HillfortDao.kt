@@ -17,10 +17,10 @@ interface HillfortDao {
     fun findById(id: Long): HillfortModel
 
     @Query("select * from HillfortModel where authorId = :authorId")
-    fun findAllByUser(authorId: Long): List<HillfortModel>
+    fun findAllByUser(authorId: String): List<HillfortModel>
 
     @Query("select * from HillfortModel where authorId = :authorId and visited = true")
-    fun findVisitedHillfortsByUser(authorId: Long): List<HillfortModel>
+    fun findVisitedHillfortsByUser(authorId: String): List<HillfortModel>
 
     @Update
     fun update(hillfort: HillfortModel)

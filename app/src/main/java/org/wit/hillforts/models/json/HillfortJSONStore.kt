@@ -38,7 +38,7 @@ class HillfortJSONStore: HillfortStore, AnkoLogger {
         return hillforts
     }
 
-    override fun findAllByUser(userId: Long): MutableList<HillfortModel> {
+    override fun findAllByUser(userId: String): MutableList<HillfortModel> {
         //var filteredHillforts = hillforts.filter{ it.authorId == user.id }
         //var userHillforts = hillforts.retainAll { (it.authorId == user.id) }
         val userHillfortList = mutableListOf<HillfortModel>()
@@ -51,7 +51,7 @@ class HillfortJSONStore: HillfortStore, AnkoLogger {
     }
 
 
-    override fun findVisitedHillfortsByUser(userId: Long): MutableList<HillfortModel> {
+    override fun findVisitedHillfortsByUser(userId: String): MutableList<HillfortModel> {
         val visitedUserHillfortList = mutableListOf<HillfortModel>()
         hillforts.forEach {
             if(it.authorId == userId && it.visited == true) {

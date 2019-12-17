@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
@@ -27,6 +28,8 @@ class HillfortListView: BaseView(), HillfortListener {
         val data = intent.extras
         //val user = data!!.getParcelable<UserModel>("user")
         //toast("welcome ${user!!.firstName}")
+        val user = FirebaseAuth.getInstance().currentUser
+        toast("welcome ${user?.uid.toString()}")
 
         presenter = initPresenter(HillfortListPresenter(this)) as HillfortListPresenter
         //presenter.app.loggedInUser = user

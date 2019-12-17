@@ -13,6 +13,7 @@ import androidx.annotation.RequiresApi
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_edit_location.*
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import kotlinx.android.synthetic.main.activity_hillfort.description
@@ -37,6 +38,8 @@ class HillfortView : BaseView(), AnkoLogger {
     //lateinit var map: GoogleMap
     var hillfort = HillfortModel()
     var dateVisited = String()
+    val user = FirebaseAuth.getInstance().currentUser
+
     //lateinit var app: MainApp
 
 
@@ -85,7 +88,7 @@ class HillfortView : BaseView(), AnkoLogger {
                     toast("enter hillfort name")
                 } else {
                     presenter.doAddOrSave(hillfortName.text.toString(), description.text.toString(),
-                        notes.text.toString(), app.loggedInUserId, checkbox.isChecked,
+                        notes.text.toString(), user!!.uid, checkbox.isChecked,
                         dateVisited )
                 }
             }

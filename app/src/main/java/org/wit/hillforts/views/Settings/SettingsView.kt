@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_user.*
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.info
@@ -18,7 +19,7 @@ import org.wit.hillforts.views.BaseView
 class SettingsView: BaseView(), AnkoLogger {
 
     lateinit var presenter: SettingsPresenter
-    var user = UserModel()
+    var userModel = UserModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,32 +27,31 @@ class SettingsView: BaseView(), AnkoLogger {
         settingsMenu.title = "Settings"
         setSupportActionBar(settingsMenu)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        val user = FirebaseAuth.getInstance().currentUser
 
         info("User Activity started..")
 
         presenter = initPresenter(SettingsPresenter(this)) as SettingsPresenter
 
         //var user = presenter.app.loggedInUser
-        editFirstName.setText(user.firstName)
-        editLastName.setText(user.lastName)
-        editPassword.setText(user.password)
-        editEmail.setText(user.email)
+        //editFirstName.setText(user.firstName)
+        //editLastName.setText(user.lastName)
+        //editPassword.setText(user.password)
+        editEmail.setText(user!!.email)
         presenter.doGetAllHillforts()
-        presenter.doGetAllHillfortsByUser()
-        presenter.doGetAllVisitedHillfortsByUser()
+        presenter.doGetAllHillfortsByUser(user!!.uid)
+        presenter.doGetAllVisitedHillfortsByUser(user!!.uid)
 
 
         editUserSubmit.setOnClickListener() {
-            user.firstName= editFirstName.text.toString()
-            user.lastName = editLastName.text.toString()
-            user.password = editPassword.text.toString()
+            userModel.firstName= editFirstName.text.toString()
+            userModel.lastName = editLastName.text.toString()
+            userModel.password = editPassword.text.toString()
             //user.id = user.id
-            user.id = 0
-            user.email = user.email
-            if (user.firstName.isEmpty() || user.lastName.isEmpty() || user.password.isEmpty())  {
+            if (userModel.firstName.isEmpty() || userModel.lastName.isEmpty() || userModel.password.isEmpty())  {
                 toast(R.string.enter_hillfort_name)
             } else {
-                presenter.app.users.update(user.copy())
+                presenter.app.users.update(userModel.copy())
             }
             info("user info updated")
             setResult(AppCompatActivity.RESULT_OK)

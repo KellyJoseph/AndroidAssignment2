@@ -17,18 +17,18 @@ class SettingsPresenter (view: BaseView): BasePresenter(view) {
     }
 
 
-    fun doGetAllHillfortsByUser() {
+    fun doGetAllHillfortsByUser(userId: String) {
         doAsync {
-            val hillforts = app.hillforts.findAllByUser(app.loggedInUserId).size
+            val hillforts = app.hillforts.findAllByUser(userId).size
             uiThread {
                 view?.showUserHillforts(hillforts)
             }
         }
     }
 
-    fun doGetAllVisitedHillfortsByUser() {
+    fun doGetAllVisitedHillfortsByUser(userId: String) {
         doAsync {
-            val hillforts = app.hillforts.findAllByUser(app.loggedInUserId).size
+            val hillforts = app.hillforts.findAllByUser(userId).size
             uiThread {
                 view?.showVisited(hillforts)
             }

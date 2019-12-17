@@ -1,3 +1,4 @@
+/*
 package org.wit.hillforts.activities
 
 import android.content.Intent
@@ -33,13 +34,13 @@ class LoginActivity : AppCompatActivity(), AnkoLogger {
             var email : String = loginEmail.text.toString()
             var password : String = loginPassword.text.toString()
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                var res = app.users.login(email, password)
-                if (res != null) {
-                    //app.loggedInUser = res
+                //var res = app.users.login(email, password)
+                //if (res != null) {
+                    app.loggedInUser = res
                     toast("logged in")
                    // val intent = Intent(this)
                     startActivity(Intent(this, HillfortListView::class.java))
-                      //  .putExtra("user", res))
+                        .putExtra("user", res))
                 }
                 else if (res == null) {
                     toast("incorrect email and/or password")
@@ -62,3 +63,4 @@ class LoginActivity : AppCompatActivity(), AnkoLogger {
     }
 
 }
+*/

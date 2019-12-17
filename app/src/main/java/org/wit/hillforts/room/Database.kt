@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import org.wit.hillforts.models.HillfortModel
 
-@Database(entities = arrayOf(HillfortModel::class), version = 2,  exportSchema = false)
+@Database(entities = arrayOf(HillfortModel::class), version = 3,  exportSchema = false)
 
 abstract class Database : RoomDatabase() {
 

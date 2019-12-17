@@ -15,11 +15,8 @@ data class HillfortModel(@PrimaryKey(autoGenerate = true)var id: Long = 0,
                          var description: String = "",
                          var notes: String = "",
                          var image: String = "",
-                         //var lat: Double = 0.0,
-                         //var lng: Double = 0.0,
-                         //var zoom: Float = 0f,
                          var visitedDate: String = "",
-                         var authorId: Long = 0,
+                         var authorId: String = "",
                          var visited: Boolean = false,
                          @Embedded var location: Location = Location()) : Parcelable
 
