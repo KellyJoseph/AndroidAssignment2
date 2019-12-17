@@ -35,11 +35,11 @@ class LoginActivity : AppCompatActivity(), AnkoLogger {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 var res = app.users.login(email, password)
                 if (res != null) {
-                    app.loggedInUser = res
+                    //app.loggedInUser = res
                     toast("logged in")
                    // val intent = Intent(this)
-                    startActivity(Intent(this, HillfortListView::class.java).
-                        putExtra("user", res))
+                    startActivity(Intent(this, HillfortListView::class.java))
+                      //  .putExtra("user", res))
                 }
                 else if (res == null) {
                     toast("incorrect email and/or password")

@@ -64,15 +64,8 @@ class HillfortView : BaseView(), AnkoLogger {
         hillfortName.setText(hillfort.name)
         description.setText(hillfort.description)
         hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.image))
-        btnAdd.setText(R.string.save_hillfort)
-        //this.showLocation(hillfort.location)
     }
-/*
-    override fun showLocation(location: Location) {
-        lat.setText("%.6f".format(location.lat))
-        lng.setText("%.6f".format(location.lng))
-    }
-*/
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.hillfort_menu, menu)
         return super.onCreateOptionsMenu(menu)
@@ -92,7 +85,7 @@ class HillfortView : BaseView(), AnkoLogger {
                     toast("enter hillfort name")
                 } else {
                     presenter.doAddOrSave(hillfortName.text.toString(), description.text.toString(),
-                        notes.text.toString(), app.loggedInUser.id, checkbox.isChecked,
+                        notes.text.toString(), app.loggedInUserId, checkbox.isChecked,
                         dateVisited )
                 }
             }

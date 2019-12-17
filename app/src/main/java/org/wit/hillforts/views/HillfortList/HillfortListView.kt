@@ -25,11 +25,11 @@ class HillfortListView: BaseView(), HillfortListener {
         toolbar.title = title
 
         val data = intent.extras
-        val user = data!!.getParcelable<UserModel>("user")
-        toast("welcome ${user!!.firstName}")
+        //val user = data!!.getParcelable<UserModel>("user")
+        //toast("welcome ${user!!.firstName}")
 
         presenter = initPresenter(HillfortListPresenter(this)) as HillfortListPresenter
-        presenter.app.loggedInUser = user
+        //presenter.app.loggedInUser = user
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager

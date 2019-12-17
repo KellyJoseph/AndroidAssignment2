@@ -46,6 +46,8 @@ open abstract class BaseView() : AppCompatActivity(), AnkoLogger {
         return presenter
     }
 
+    open fun showLocation(latitude : Double, longitude : Double) {}
+
     fun init(toolbar: Toolbar, upEnabled: Boolean) {
         toolbar.title = title
         setSupportActionBar(toolbar)

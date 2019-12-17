@@ -31,7 +31,7 @@ class SettingsView: BaseView(), AnkoLogger {
 
         presenter = initPresenter(SettingsPresenter(this)) as SettingsPresenter
 
-        var user = presenter.app.loggedInUser
+        //var user = presenter.app.loggedInUser
         editFirstName.setText(user.firstName)
         editLastName.setText(user.lastName)
         editPassword.setText(user.password)
@@ -45,7 +45,8 @@ class SettingsView: BaseView(), AnkoLogger {
             user.firstName= editFirstName.text.toString()
             user.lastName = editLastName.text.toString()
             user.password = editPassword.text.toString()
-            user.id = user.id
+            //user.id = user.id
+            user.id = 0
             user.email = user.email
             if (user.firstName.isEmpty() || user.lastName.isEmpty() || user.password.isEmpty())  {
                 toast(R.string.enter_hillfort_name)

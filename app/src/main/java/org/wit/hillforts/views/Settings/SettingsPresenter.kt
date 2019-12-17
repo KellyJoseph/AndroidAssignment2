@@ -19,7 +19,7 @@ class SettingsPresenter (view: BaseView): BasePresenter(view) {
 
     fun doGetAllHillfortsByUser() {
         doAsync {
-            val hillforts = app.hillforts.findAllByUser(app.loggedInUser).size
+            val hillforts = app.hillforts.findAllByUser(app.loggedInUserId).size
             uiThread {
                 view?.showUserHillforts(hillforts)
             }
@@ -28,7 +28,7 @@ class SettingsPresenter (view: BaseView): BasePresenter(view) {
 
     fun doGetAllVisitedHillfortsByUser() {
         doAsync {
-            val hillforts = app.hillforts.findAllByUser(app.loggedInUser).size
+            val hillforts = app.hillforts.findAllByUser(app.loggedInUserId).size
             uiThread {
                 view?.showVisited(hillforts)
             }

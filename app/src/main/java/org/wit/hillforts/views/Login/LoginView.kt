@@ -36,7 +36,7 @@ class LoginView : AppCompatActivity(), AnkoLogger {
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 var res = app.users.login(email, password)
                 if (res != null) {
-                    app.loggedInUser = res
+                    app.loggedInUserId = 0
                     toast("logged in")
                     // val intent = Intent(this)
                     startActivity(Intent(this, HillfortListView::class.java).

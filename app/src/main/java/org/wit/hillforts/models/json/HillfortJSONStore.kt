@@ -38,12 +38,12 @@ class HillfortJSONStore: HillfortStore, AnkoLogger {
         return hillforts
     }
 
-    override fun findAllByUser(user: UserModel): MutableList<HillfortModel> {
+    override fun findAllByUser(userId: Long): MutableList<HillfortModel> {
         //var filteredHillforts = hillforts.filter{ it.authorId == user.id }
         //var userHillforts = hillforts.retainAll { (it.authorId == user.id) }
         val userHillfortList = mutableListOf<HillfortModel>()
         hillforts.forEach {
-            if(it.authorId == user.id) {
+            if(it.authorId == userId) {
                 userHillfortList.add(it)
             }
         }
@@ -51,10 +51,10 @@ class HillfortJSONStore: HillfortStore, AnkoLogger {
     }
 
 
-    override fun findVisitedHillfortsByUser(user: UserModel): MutableList<HillfortModel> {
+    override fun findVisitedHillfortsByUser(userId: Long): MutableList<HillfortModel> {
         val visitedUserHillfortList = mutableListOf<HillfortModel>()
         hillforts.forEach {
-            if(it.authorId == user.id && it.visited == true) {
+            if(it.authorId == userId && it.visited == true) {
                 visitedUserHillfortList.add(it)
             }
         }
@@ -108,11 +108,7 @@ class HillfortJSONStore: HillfortStore, AnkoLogger {
             foundHillfort.notes = hillfort.notes
             foundHillfort.visited = hillfort.visited
             foundHillfort.visitedDate = hillfort.visitedDate
-            //foundHillfort.image = hillfort.image
             foundHillfort.image = hillfort.image
-            //foundHillfort.lat = hillfort.lat
-            //foundHillfort.lng = hillfort.lng
-            //foundHillfort.zoom = hillfort.zoom
             foundHillfort.location = hillfort.location
         }
         serialize(HILLFORTS_FILE)
