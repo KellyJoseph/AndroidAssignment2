@@ -1,6 +1,7 @@
 package org.wit.hillforts.views.LoginFB
 
 import android.os.Bundle
+import android.view.View
 import kotlinx.android.synthetic.main.activity_login_fb.*
 import org.jetbrains.anko.toast
 import org.wit.hillforts.R
@@ -14,6 +15,7 @@ class LoginViewFB : BaseView() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login_fb)
         init(toolbar, false)
+        progressBar.visibility = View.GONE
 
         presenter = initPresenter(LoginPresenterFB(this)) as LoginPresenterFB
 
@@ -28,6 +30,8 @@ class LoginViewFB : BaseView() {
             }
         }
 
+
+
         logIn.setOnClickListener {
             val email = email.text.toString()
             val password = password.text.toString()
@@ -38,5 +42,12 @@ class LoginViewFB : BaseView() {
                 presenter.doLogin(email,password)
             }
         }
+    }
+    override fun showProgress() {
+        progressBar.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        progressBar.visibility = View.GONE
     }
 }
