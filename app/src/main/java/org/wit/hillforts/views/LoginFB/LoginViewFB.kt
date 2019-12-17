@@ -1,7 +1,7 @@
 package org.wit.hillforts.views.LoginFB
 
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_login2.*
+import kotlinx.android.synthetic.main.activity_login_fb.*
 import org.jetbrains.anko.toast
 import org.wit.hillforts.R
 import org.wit.hillforts.views.BaseView
@@ -12,8 +12,8 @@ class LoginViewFB : BaseView() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login2)
-        init(toolbar, true)
+        setContentView(R.layout.activity_login_fb)
+        init(toolbar, false)
 
         presenter = initPresenter(LoginPresenterFB(this)) as LoginPresenterFB
 
@@ -38,7 +38,5 @@ class LoginViewFB : BaseView() {
                 presenter.doLogin(email,password)
             }
         }
-
-
     }
 }
