@@ -52,7 +52,7 @@ class Home : AppCompatActivity(),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.nav_donate -> navigateTo(DonateFragment.newInstance())
+            //R.id.nav_donate -> navigateTo(DonateFragment.newInstance())
 
             else -> toast("You Selected Something Else")
         }

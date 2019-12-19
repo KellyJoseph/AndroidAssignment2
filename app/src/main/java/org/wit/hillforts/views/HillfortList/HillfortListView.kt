@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
+import kotlinx.android.synthetic.main.activity_hillforts_list.drawerLayout
+import kotlinx.android.synthetic.main.home.*
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import org.wit.hillforts.R
@@ -28,7 +30,7 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
         setContentView(R.layout.activity_hillforts_list)
         setSupportActionBar(toolbar)
 
-        navView.setNavigationItemSelectedListener(this)
+        navViewHillfortList.setNavigationItemSelectedListener(this)
 
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
@@ -49,8 +51,10 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.nav_add -> toast("you selected add")
-            R.id.nav_map -> toast("you selected map")
+            R.id.nav_add -> toast("you are already on the home page")
+            R.id.nav_map -> presenter.doShowHillfortsMap()
+            R.id.nav_home -> navigateTo(VIEW.HILLFORTSLIST)
+            R.id.nav_settings -> navigateTo(VIEW.SETTINGS)
 
             else -> toast("You Selected Something Else")
         }
