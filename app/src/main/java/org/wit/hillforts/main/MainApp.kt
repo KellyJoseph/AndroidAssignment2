@@ -6,8 +6,7 @@ import org.jetbrains.anko.info
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.models.HillfortStore
 import org.wit.hillforts.models.UserStore
-import org.wit.hillforts.models.firebase.HillfortFireStore
-import org.wit.hillforts.models.json.UsersJSONStore
+import org.wit.hillforts.models.firebase.HillfortsFireStore
 
 
 class MainApp: Application(), AnkoLogger {
@@ -25,7 +24,8 @@ class MainApp: Application(), AnkoLogger {
         //users = UsersJSONStore(applicationContext)
         //hillforts = HillfortJSONStore(applicationContext)
         //hillforts = HillfortStoreRoom(applicationContext)
-        hillforts = HillfortFireStore(applicationContext)
+        //hillforts = HillfortFireStore(applicationContext)
+        hillforts = HillfortsFireStore(applicationContext)
         info("Hillforts started")
     }
 }

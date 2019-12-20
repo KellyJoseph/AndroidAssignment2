@@ -10,16 +10,16 @@ import android.view.View
 import android.widget.CheckBox
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.core.view.GravityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_edit_location.*
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import kotlinx.android.synthetic.main.activity_hillfort.description
 import kotlinx.android.synthetic.main.activity_hillfort.hillfortName
-import kotlinx.android.synthetic.main.content_hillfort_maps.*
-import kotlinx.android.synthetic.main.hillfort_card.*
 import org.wit.hillforts.R
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
@@ -28,10 +28,13 @@ import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.models.Location
 import org.wit.hillforts.views.BaseView
+import org.wit.hillforts.views.IMAGE_REQUEST
+import org.wit.hillforts.views.LOCATION_REQUEST
+import org.wit.hillforts.views.VIEW
 import java.util.*
 
 
-class HillfortView : BaseView(), AnkoLogger {
+class HillfortView : BaseView(), AnkoLogger, NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var app: MainApp
     lateinit var presenter: HillfortPresenter
@@ -49,7 +52,14 @@ class HillfortView : BaseView(), AnkoLogger {
         super.init(toolbarAdd, true)
         app = application as MainApp
         presenter = initPresenter (HillfortPresenter(this)) as HillfortPresenter
-
+        navViewHillfort.setNavigationItemSelectedListener(this)
+        val toggle = ActionBarDrawerToggle(
+            this, drawerLayoutHillfort, toolbarAdd,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
+        )
+        drawerLayoutHillfort.addDrawerListener(toggle)
+        toggle.syncState()
         //supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         hillfortMap.onCreate(savedInstanceState)
@@ -61,6 +71,19 @@ class HillfortView : BaseView(), AnkoLogger {
         //hillfortLocation.setOnClickListener(){ presenter.doSetLocation()}
         chooseImage.setOnClickListener(){ presenter.doSelectImage()}
         deleteImage.setOnClickListener() { presenter.doDeleteImage()}
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+
+        when (item.itemId) {
+            R.id.nav_add -> toast("You're already on add")
+            R.id.nav_home -> navigateTo(VIEW.HILLFORTSLIST)
+            R.id.nav_map -> navigateTo(VIEW.MAP)
+            R.id.nav_settings -> navigateTo(VIEW.SETTINGS)
+            else -> toast("You Selected Something Else")
+        }
+        drawerLayoutHillfort.closeDrawer(GravityCompat.START)
+        return true
     }
 
     override fun showHillfort(hillfort: HillfortModel) {
@@ -122,7 +145,7 @@ class HillfortView : BaseView(), AnkoLogger {
         }, year, month, day)
         dpd.show()
     }
-/*
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -144,13 +167,15 @@ class HillfortView : BaseView(), AnkoLogger {
 
         }
     }
- */
+ /*
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     if (data != null) {
         presenter.doActivityResult(requestCode, resultCode, data)
     }
 }
+
+  */
 
     override fun onDestroy() {
         super.onDestroy()
@@ -170,7 +195,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
     override fun onResume() {
         super.onResume()
         hillfortMap.onResume()
-        presenter.doResartLocationUpdates()
+        presenter.doRestartLocationUpdates()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

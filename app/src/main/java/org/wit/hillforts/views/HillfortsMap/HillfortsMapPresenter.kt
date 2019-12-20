@@ -26,14 +26,12 @@ class HillfortsMapPresenter(view: BaseView): BasePresenter(view) {
     }
 
     fun doMarkerSelected(marker: Marker) {
-        //val tag = marker.tag as Long
-        doAsync {
-            //val hillfort = app.hillforts.findById(tag)
+       // doAsync {
             val hillfort = marker.tag as HillfortModel
-            uiThread {
+         //   uiThread {
                 if (hillfort != null) view?.showHillfort(hillfort)
-            }
-        }
+         //   }
+       // }
     }
 
     fun loadHillforts() {

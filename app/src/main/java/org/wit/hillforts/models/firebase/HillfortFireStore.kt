@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import org.jetbrains.anko.AnkoLogger
 import org.wit.hillforts.helpers.readImageFromPath
@@ -13,14 +14,15 @@ import org.wit.hillforts.models.UserModel
 import java.io.ByteArrayOutputStream
 import java.io.File
 
-class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
+class HillfortsFireStore(val context: Context) : HillfortStore, AnkoLogger {
 
     val hillforts = ArrayList<HillfortModel>()
     lateinit var db: DatabaseReference
     lateinit var st: StorageReference
+    lateinit var userId: String
 
-    val user = FirebaseAuth.getInstance().currentUser
-    var userId = user!!.uid
+    //var userId = user!!.uid
+    //var userId = FirebaseAuth.getInstance().currentUser!!.uid
 
 
     override fun findAll(): List<HillfortModel> {
@@ -95,8 +97,9 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
                 hillfortsReady()
             }
         }
-        var userId = FirebaseAuth.getInstance().currentUser!!.uid
+        userId = FirebaseAuth.getInstance().currentUser!!.uid
         db = FirebaseDatabase.getInstance().reference
+        st = FirebaseStorage.getInstance().reference
         hillforts.clear()
         db.child("users").child(userId).child("hillforts").addListenerForSingleValueEvent(valueEventListener)
     }
@@ -119,11 +122,11 @@ class HillfortFireStore(val context: Context) : HillfortStore, AnkoLogger {
                 }.addOnSuccessListener { taskSnapshot ->
                     taskSnapshot.metadata!!.reference!!.downloadUrl.addOnSuccessListener {
                         hillfort.image = it.toString()
-                        db.child("users").child(userId).child("hillforts").child(hillfort.fbId)
-                            .setValue(hillfort)
+                        db.child("users").child(userId).child("hillforts").child(hillfort.fbId).setValue(hillfort)
                     }
                 }
             }
         }
     }
+
 }
