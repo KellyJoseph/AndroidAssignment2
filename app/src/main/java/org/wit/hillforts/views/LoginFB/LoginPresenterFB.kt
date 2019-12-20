@@ -30,12 +30,12 @@ class LoginPresenterFB(view: BaseView) : BasePresenter(view) {
                         view?.navigateTo(VIEW.HILLFORTSLIST)
                     }
                 } else {
-                    //view?.toast("Sign Up Failed: ${task.exception?.message}")
+                    view?.toast("Sign Up Failed: ${task.exception?.message}")
                     view?.hideProgress()
                     view?.navigateTo(VIEW.HILLFORTSLIST)
                 }
                 view?.hideProgress()
-                view?.toast("Sign Up Failed: ${task.exception?.message}")
+                view?.toast("Successfully signed in")
             }
         }
     }
