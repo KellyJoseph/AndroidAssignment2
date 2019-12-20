@@ -10,9 +10,11 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.android.synthetic.main.activity_hillfort.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.uiThread
+import org.wit.hillforts.R
 import org.wit.hillforts.helpers.checkLocationPermissions
 import org.wit.hillforts.helpers.createDefaultLocationRequest
 import org.wit.hillforts.helpers.isPermissionGranted
@@ -50,7 +52,7 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
     }
 
     @SuppressLint("MissingPermission")
-    fun doResartLocationUpdates() {
+    fun doRestartLocationUpdates() {
         var locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult?) {
                 if (locationResult != null && locationResult.locations != null) {
@@ -139,16 +141,18 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
 
 
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.doActivityResult(requestCode, resultCode, data)
         when(requestCode) {
             IMAGE_REQUEST -> {
-                hillfort.image = data.getData().toString()
-                view?.showHillfort(hillfort)
+                if (data != null) {
+                    hillfort.image = data.getData().toString()
+                }
             }
             LOCATION_REQUEST -> {
                 if (data != null) {
                     val location = data.extras?.getParcelable<Location>("location")!!
+
                     hillfort.location = location
-                    locationUpdate(hillfort.location)
                 }
             }
         }

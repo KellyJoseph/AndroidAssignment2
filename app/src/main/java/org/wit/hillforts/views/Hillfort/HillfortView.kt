@@ -17,14 +17,9 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.activity_edit_location.*
 import kotlinx.android.synthetic.main.activity_hillfort.*
 import kotlinx.android.synthetic.main.activity_hillfort.description
 import kotlinx.android.synthetic.main.activity_hillfort.hillfortName
-import kotlinx.android.synthetic.main.activity_hillforts_list.*
-import kotlinx.android.synthetic.main.content_hillfort_maps.*
-import kotlinx.android.synthetic.main.hillfort_card.*
-import kotlinx.android.synthetic.main.home.*
 import org.wit.hillforts.R
 import org.jetbrains.anko.AnkoLogger
 import org.jetbrains.anko.toast
@@ -33,6 +28,8 @@ import org.wit.hillforts.main.MainApp
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.models.Location
 import org.wit.hillforts.views.BaseView
+import org.wit.hillforts.views.IMAGE_REQUEST
+import org.wit.hillforts.views.LOCATION_REQUEST
 import org.wit.hillforts.views.VIEW
 import java.util.*
 
@@ -83,11 +80,6 @@ class HillfortView : BaseView(), AnkoLogger, NavigationView.OnNavigationItemSele
             R.id.nav_home -> navigateTo(VIEW.HILLFORTSLIST)
             R.id.nav_map -> navigateTo(VIEW.MAP)
             R.id.nav_settings -> navigateTo(VIEW.SETTINGS)
-            //toast("you selected map")
-            //toast("you selected add")
-            //R.id.nav_map -> presenter.doShowHillfortsMap()
-            //toast("you selected map")
-
             else -> toast("You Selected Something Else")
         }
         drawerLayoutHillfort.closeDrawer(GravityCompat.START)
@@ -153,7 +145,7 @@ class HillfortView : BaseView(), AnkoLogger, NavigationView.OnNavigationItemSele
         }, year, month, day)
         dpd.show()
     }
-/*
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         when (requestCode) {
@@ -175,13 +167,15 @@ class HillfortView : BaseView(), AnkoLogger, NavigationView.OnNavigationItemSele
 
         }
     }
- */
+ /*
 override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
     super.onActivityResult(requestCode, resultCode, data)
     if (data != null) {
         presenter.doActivityResult(requestCode, resultCode, data)
     }
 }
+
+  */
 
     override fun onDestroy() {
         super.onDestroy()
@@ -201,7 +195,7 @@ override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) 
     override fun onResume() {
         super.onResume()
         hillfortMap.onResume()
-        presenter.doResartLocationUpdates()
+        presenter.doRestartLocationUpdates()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {

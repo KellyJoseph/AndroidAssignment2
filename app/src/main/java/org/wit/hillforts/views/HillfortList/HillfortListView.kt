@@ -7,18 +7,16 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
 import kotlinx.android.synthetic.main.activity_hillforts_list.drawerLayout
-import kotlinx.android.synthetic.main.home.*
+import kotlinx.android.synthetic.main.nav_header.view.*
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
 import org.wit.hillforts.R
 import org.wit.hillforts.activities.*
 import org.wit.hillforts.models.HillfortModel
-import org.wit.hillforts.models.UserModel
 import org.wit.hillforts.views.BaseView
 import org.wit.hillforts.views.Settings.SettingsView
 import org.wit.hillforts.views.VIEW
@@ -33,7 +31,9 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
         setContentView(R.layout.activity_hillforts_list)
         setSupportActionBar(toolbar)
 
+
         navViewHillfortList.setNavigationItemSelectedListener(this)
+        navViewHillfortList.getHeaderView(0).textView1.text = FirebaseAuth.getInstance().currentUser!!.email
 
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar,
