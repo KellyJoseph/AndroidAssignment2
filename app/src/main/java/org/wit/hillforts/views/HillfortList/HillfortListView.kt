@@ -34,7 +34,6 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
         setContentView(R.layout.activity_hillforts_list)
         setSupportActionBar(toolbar)
 
-
         navViewHillfortList.setNavigationItemSelectedListener(this)
         navViewHillfortList.getHeaderView(0).textView1.text = FirebaseAuth.getInstance().currentUser!!.email
 
@@ -47,8 +46,6 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
         toggle.syncState()
 
         presenter = initPresenter(HillfortListPresenter(this)) as HillfortListPresenter
-        //presenter.app.loggedInUser = user
-
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
         presenter.loadHillforts()
@@ -57,9 +54,9 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.nav_add -> toast("you are already on the home page")
+            R.id.nav_add -> presenter.doAddHillfort()
             R.id.nav_map -> presenter.doShowHillfortsMap()
-            R.id.nav_home -> navigateTo(VIEW.HILLFORTSLIST)
+            R.id.nav_home -> toast("you are already on the home page")
             R.id.nav_settings -> navigateTo(VIEW.SETTINGS)
 
             else -> toast("You Selected Something Else")
@@ -70,44 +67,45 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
 
     override fun showHillforts(hillforts: List<HillfortModel>) {
         recyclerView.adapter = HillfortsAdapter(hillforts, this)
-        //recyclerView.adapter?.notifyDataSetChanged(SearchView.OnQueryTextListener)
     }
-
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-        //var searchItem: MenuItem = menu.findItem(R.id.action_search)
-        //var searchView = searchItem.actionView as SearchView
-        //searchView.setOnQueryTextListener()
         val searchItem = menu.findItem(R.id.action_search)
         val searchView = searchItem.actionView as SearchView
-        //return super.onCreateOptionsMenu(menu)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isNullOrEmpty()) {
+                    presenter.loadHillforts()
+                }
+                else
                 toast("text has changed $newText")
+                presenter.doFilterHillforts(newText)
+
+                return false
+            }
+            override fun onQueryTextSubmit(newText: String): Boolean {
+
+                if (newText.isNullOrEmpty()) {
+                    presenter.loadHillforts()
+                }
+                else
+                    toast("text has changed $newText")
                 presenter.doFilterHillforts(newText)
                 return false
             }
-
-            override fun onQueryTextSubmit(query: String): Boolean {
-                // task HERE
-                return false
-            }
-
-        })
+        }
+        )
         return true
     }
 
-    //handler for the add button
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.item_add -> presenter.doAddHillfort()
             R.id.item_map -> presenter.doShowHillfortsMap()
             R.id.settings -> startActivityForResult<SettingsView>(0)
             R.id.item_logout ->presenter.doLogout()
-            R.id.action_search -> toast("you just filtered results")
         }
         return super.onOptionsItemSelected(item)
     }
@@ -128,5 +126,4 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
         else
             super.onBackPressed()
     }
-
 }
