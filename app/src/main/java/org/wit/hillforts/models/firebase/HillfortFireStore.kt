@@ -60,6 +60,7 @@ class HillfortsFireStore(val context: Context) : HillfortStore, AnkoLogger {
             hillfort.fbId = key
             hillforts.add(hillfort)
             db.child("users").child(userId).child("hillforts").child(key).setValue(hillfort)
+            updateImage(hillfort)
         }
     }
 
@@ -103,7 +104,6 @@ class HillfortsFireStore(val context: Context) : HillfortStore, AnkoLogger {
         hillforts.clear()
         db.child("users").child(userId).child("hillforts").addListenerForSingleValueEvent(valueEventListener)
     }
-
     fun updateImage(hillfort: HillfortModel) {
         if (hillfort.image != "") {
             val fileName = File(hillfort.image)
@@ -128,5 +128,4 @@ class HillfortsFireStore(val context: Context) : HillfortStore, AnkoLogger {
             }
         }
     }
-
 }

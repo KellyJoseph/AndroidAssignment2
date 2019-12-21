@@ -54,9 +54,9 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
         when (item.itemId) {
-            R.id.nav_add -> toast("you are already on the home page")
+            R.id.nav_add -> presenter.doAddHillfort()
             R.id.nav_map -> presenter.doShowHillfortsMap()
-            R.id.nav_home -> navigateTo(VIEW.HILLFORTSLIST)
+            R.id.nav_home -> toast("you are already on the home page")
             R.id.nav_settings -> navigateTo(VIEW.SETTINGS)
 
             else -> toast("You Selected Something Else")
