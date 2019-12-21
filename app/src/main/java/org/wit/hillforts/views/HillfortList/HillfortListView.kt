@@ -3,14 +3,17 @@ package org.wit.hillforts.views.HillfortList
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.SearchView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
+import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
 import kotlinx.android.synthetic.main.activity_hillforts_list.drawerLayout
+import kotlinx.android.synthetic.main.activity_user.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
@@ -67,14 +70,34 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
 
     override fun showHillforts(hillforts: List<HillfortModel>) {
         recyclerView.adapter = HillfortsAdapter(hillforts, this)
-        recyclerView.adapter?.notifyDataSetChanged()
+        //recyclerView.adapter?.notifyDataSetChanged(SearchView.OnQueryTextListener)
     }
 
 
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-        return super.onCreateOptionsMenu(menu)
+        //var searchItem: MenuItem = menu.findItem(R.id.action_search)
+        //var searchView = searchItem.actionView as SearchView
+        //searchView.setOnQueryTextListener()
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
+        //return super.onCreateOptionsMenu(menu)
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                toast("text has changed $newText")
+                presenter.doFilterHillforts(newText)
+                return false
+            }
+
+            override fun onQueryTextSubmit(query: String): Boolean {
+                // task HERE
+                return false
+            }
+
+        })
+        return true
     }
 
     //handler for the add button
@@ -84,6 +107,7 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
             R.id.item_map -> presenter.doShowHillfortsMap()
             R.id.settings -> startActivityForResult<SettingsView>(0)
             R.id.item_logout ->presenter.doLogout()
+            R.id.action_search -> toast("you just filtered results")
         }
         return super.onOptionsItemSelected(item)
     }

@@ -27,6 +27,9 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
         view?.navigateTo(VIEW.LOGIN)
     }
 
+    fun doFilterHillforts(newText: String){
+    }
+
     fun loadHillforts() {
         //view?.showHillforts(app.hillforts.findAll())
         doAsync {
