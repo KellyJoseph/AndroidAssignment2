@@ -29,7 +29,7 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
     fun doFilterHillforts(newText: String) {
         doAsync {
-            val hillforts = app.hillforts.findAll().filter { it.name.contains(newText) }
+            val hillforts = app.hillforts.findAll().filter { it.name.toLowerCase().contains(newText.toLowerCase()) }
             //val filteredHillforts = hillforts.toMutableList()
             //filteredHillforts.filter { it.name.startsWith(newText) }
             uiThread {

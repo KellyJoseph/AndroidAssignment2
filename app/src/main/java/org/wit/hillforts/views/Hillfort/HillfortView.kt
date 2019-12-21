@@ -158,24 +158,12 @@ class HillfortView : BaseView(), AnkoLogger, NavigationView.OnNavigationItemSele
             LOCATION_REQUEST -> {
                 if (data != null) {
                     val location = data.extras?.getParcelable<Location>("location")!!
-                    //hillfort.lat = location.lat
-                    //hillfort.lng = location.lng
-                    //hillfort.zoom = location.zoom
                     hillfort.location = location
                 }
             }
 
         }
     }
- /*
-override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-    super.onActivityResult(requestCode, resultCode, data)
-    if (data != null) {
-        presenter.doActivityResult(requestCode, resultCode, data)
-    }
-}
-
-  */
 
     override fun onDestroy() {
         super.onDestroy()
