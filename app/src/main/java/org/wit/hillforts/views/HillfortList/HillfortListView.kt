@@ -3,14 +3,17 @@ package org.wit.hillforts.views.HillfortList
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
+import android.widget.SearchView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
+import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
 import kotlinx.android.synthetic.main.activity_hillforts_list.drawerLayout
+import kotlinx.android.synthetic.main.activity_user.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
@@ -31,7 +34,6 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
         setContentView(R.layout.activity_hillforts_list)
         setSupportActionBar(toolbar)
 
-
         navViewHillfortList.setNavigationItemSelectedListener(this)
         navViewHillfortList.getHeaderView(0).textView1.text = FirebaseAuth.getInstance().currentUser!!.email
 
@@ -44,8 +46,6 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
         toggle.syncState()
 
         presenter = initPresenter(HillfortListPresenter(this)) as HillfortListPresenter
-        //presenter.app.loggedInUser = user
-
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
         presenter.loadHillforts()
@@ -67,17 +67,39 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
 
     override fun showHillforts(hillforts: List<HillfortModel>) {
         recyclerView.adapter = HillfortsAdapter(hillforts, this)
-        recyclerView.adapter?.notifyDataSetChanged()
     }
 
-
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
-        return super.onCreateOptionsMenu(menu)
+        val searchItem = menu.findItem(R.id.action_search)
+        val searchView = searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                if (newText.isNullOrEmpty()) {
+                    presenter.loadHillforts()
+                }
+                else
+                toast("text has changed $newText")
+                presenter.doFilterHillforts(newText)
+
+                return false
+            }
+            override fun onQueryTextSubmit(newText: String): Boolean {
+
+                if (newText.isNullOrEmpty()) {
+                    presenter.loadHillforts()
+                }
+                else
+                    toast("text has changed $newText")
+                presenter.doFilterHillforts(newText)
+                return false
+            }
+        }
+        )
+        return true
     }
 
-    //handler for the add button
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
             R.id.item_add -> presenter.doAddHillfort()
@@ -104,5 +126,4 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
         else
             super.onBackPressed()
     }
-
 }

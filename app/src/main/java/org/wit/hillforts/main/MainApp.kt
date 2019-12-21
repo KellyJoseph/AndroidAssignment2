@@ -16,7 +16,7 @@ class MainApp: Application(), AnkoLogger {
     lateinit var hillforts: HillfortStore
     lateinit var users: UserStore
     //var loggedInUserId: Long = 0
-    lateinit var favoriteHillforts: List<HillfortModel>
+    lateinit var filteredHillforts: MutableList<HillfortModel>
 
     override fun onCreate() {
         super.onCreate()
