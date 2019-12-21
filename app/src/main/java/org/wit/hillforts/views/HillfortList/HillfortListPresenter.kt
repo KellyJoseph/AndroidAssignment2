@@ -27,8 +27,18 @@ class HillfortListPresenter(view: BaseView): BasePresenter(view) {
         view?.navigateTo(VIEW.LOGIN)
     }
 
+    fun doFilterHillforts(newText: String) {
+        doAsync {
+            val hillforts = app.hillforts.findAll().filter { it.name.contains(newText) }
+            //val filteredHillforts = hillforts.toMutableList()
+            //filteredHillforts.filter { it.name.startsWith(newText) }
+            uiThread {
+                view?.showHillforts(hillforts)
+            }
+        }
+    }
+
     fun loadHillforts() {
-        //view?.showHillforts(app.hillforts.findAll())
         doAsync {
             val hillforts = app.hillforts.findAll()
             uiThread {

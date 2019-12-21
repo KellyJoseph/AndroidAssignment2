@@ -19,7 +19,6 @@ class HillfortsAdapter constructor(
     private val listener: HillfortListener
 ): RecyclerView.Adapter<HillfortsAdapter.MainHolder>() {
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         return MainHolder(
             LayoutInflater.from(parent.context).inflate(
@@ -43,7 +42,6 @@ class HillfortsAdapter constructor(
             itemView.hillfortName.text = hillfort.name
             itemView.description.text = hillfort.description
             itemView.dateVisited.text = hillfort.visitedDate
-            //itemView.imageIcon.setImageBitmap(readImageFromPath(itemView.context, hillfort.image))
             Glide.with(itemView.context).load(hillfort.image).into(itemView.imageIcon);
             itemView.setOnClickListener { listener.onHillfortClick(hillfort) }
         }
