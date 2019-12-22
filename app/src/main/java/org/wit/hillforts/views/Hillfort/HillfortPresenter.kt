@@ -89,12 +89,13 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
         view?.showLocation(hillfort.location)
     }
 
-    fun doAddOrSave(name: String, description: String, notes: String, authorId: String, visited: Boolean, visitedDate: String) {
+    fun doAddOrSave(name: String, description: String, notes: String, authorId: String, visited: Boolean, rating: Float, visitedDate: String) {
         hillfort.name = name
         hillfort.description = description
         hillfort.notes = notes
         hillfort.authorId = authorId
         hillfort.visited = visited
+        hillfort.rating = rating
         hillfort.visitedDate = visitedDate
         doAsync {
             if (edit) {

@@ -111,7 +111,7 @@ class HillfortView : BaseView(), AnkoLogger, NavigationView.OnNavigationItemSele
                     toast("enter hillfort name")
                 } else {
                     presenter.doAddOrSave(hillfortName.text.toString(), description.text.toString(),
-                        notes.text.toString(), user!!.uid, checkbox.isChecked,
+                        notes.text.toString(), user!!.uid, checkbox.isChecked, ratingBar.rating,
                         dateVisited )
                 }
             }
