@@ -12,6 +12,7 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
+import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
@@ -89,7 +90,9 @@ class HillfortView : BaseView(), AnkoLogger, NavigationView.OnNavigationItemSele
     override fun showHillfort(hillfort: HillfortModel) {
         hillfortName.setText(hillfort.name)
         description.setText(hillfort.description)
-        hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.image))
+        //hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.image))
+        Glide.with(this).load(hillfort.image).into(hillfortImage);
+        ratingBar.rating = hillfort.rating
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

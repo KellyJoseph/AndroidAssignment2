@@ -42,7 +42,7 @@ class HillfortsAdapter constructor(
             itemView.hillfortName.text = hillfort.name
             itemView.description.text = hillfort.description
             itemView.dateVisited.text = hillfort.visitedDate
-            Glide.with(itemView.context).load(hillfort.image).into(itemView.imageIcon);
+            Glide.with(itemView.context).load(hillfort.image).into(itemView.imageIcon)
             itemView.setOnClickListener { listener.onHillfortClick(hillfort) }
         }
     }
