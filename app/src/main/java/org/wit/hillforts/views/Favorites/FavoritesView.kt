@@ -1,4 +1,6 @@
-package org.wit.hillforts.views.HillfortList
+package org.wit.hillforts.views.Favorites
+
+import org.wit.hillforts.views.Favorites.FavoritesPresenter
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,13 +9,11 @@ import android.widget.SearchView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
-import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
 import kotlinx.android.synthetic.main.activity_hillforts_list.drawerLayout
-import kotlinx.android.synthetic.main.activity_user.*
 import kotlinx.android.synthetic.main.nav_header.view.*
 import org.jetbrains.anko.startActivityForResult
 import org.jetbrains.anko.toast
@@ -24,9 +24,9 @@ import org.wit.hillforts.views.BaseView
 import org.wit.hillforts.views.Settings.SettingsView
 import org.wit.hillforts.views.VIEW
 
-class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigationItemSelectedListener {
+class FavoritesView: BaseView(), HillfortListener, NavigationView.OnNavigationItemSelectedListener {
 
-    lateinit var presenter: HillfortListPresenter
+    lateinit var presenter: FavoritesPresenter
     lateinit var loader : AlertDialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -45,7 +45,7 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        presenter = initPresenter(HillfortListPresenter(this)) as HillfortListPresenter
+        presenter = initPresenter(FavoritesPresenter(this)) as FavoritesPresenter
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
         presenter.loadHillforts()
@@ -56,9 +56,9 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
         when (item.itemId) {
             R.id.nav_add -> presenter.doAddHillfort()
             R.id.nav_map -> presenter.doShowHillfortsMap()
-            R.id.nav_home -> toast("you are already on the home page")
+            R.id.nav_home -> navigateTo(VIEW.HILLFORTSLIST)
             R.id.nav_settings -> navigateTo(VIEW.SETTINGS)
-            R.id.nav_favorites -> navigateTo(VIEW.FAVORITES)
+            R.id.nav_favorites -> toast("you are already on favorites")
 
             else -> toast("You Selected Something Else")
         }
@@ -78,10 +78,10 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
 
             override fun onQueryTextChange(newText: String): Boolean {
                 if (newText.isNullOrEmpty()) {
-                    presenter.loadHillforts()
+                    presenter.doFilterFavorites()
                 }
                 else
-                toast("text has changed $newText")
+                    toast("text has changed $newText")
                 presenter.doFilterHillforts(newText)
 
                 return false

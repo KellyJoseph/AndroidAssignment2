@@ -41,6 +41,9 @@
 
         <activity android:name=".views.Login.LoginView"/>
 
+        <activity android:name=".views.Favorites.FavoritesView"/>
+
+
         <activity
             android:name=".views.Hillfort.HillfortView"
             android:parentActivityName=".views.HillfortList.HillfortListView">

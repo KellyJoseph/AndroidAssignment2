@@ -96,6 +96,16 @@
                     android:onClick="onCheckboxClicked"
                     android:text="@string/checkbox" />
 
+                <CheckBox
+                    android:id="@+id/favoriteCheckbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:onClick="onCheckboxClicked"
+                    android:text="Favorite" />
+
+
+
                 <Button
                     android:id="@+id/chooseImage"
                     android:layout_width="match_parent"

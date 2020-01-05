@@ -51,6 +51,13 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
         }
     }
 
+    fun doIsVisited(checked: Boolean) {
+        hillfort.visited = checked
+    }
+    fun doIsFavorite(checked: Boolean) {
+        hillfort.favorite = checked
+    }
+
     @SuppressLint("MissingPermission")
     fun doRestartLocationUpdates() {
         var locationCallback = object : LocationCallback() {

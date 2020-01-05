@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.view.GravityCompat
-import com.bumptech.glide.Glide
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
@@ -90,9 +89,10 @@ class HillfortView : BaseView(), AnkoLogger, NavigationView.OnNavigationItemSele
     override fun showHillfort(hillfort: HillfortModel) {
         hillfortName.setText(hillfort.name)
         description.setText(hillfort.description)
-        //hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.image))
-        Glide.with(this).load(hillfort.image).into(hillfortImage);
+        hillfortImage.setImageBitmap(readImageFromPath(this, hillfort.image))
         ratingBar.rating = hillfort.rating
+        checkbox.isChecked = hillfort.visited
+        favoriteCheckbox.isChecked = hillfort.favorite
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -128,7 +128,14 @@ class HillfortView : BaseView(), AnkoLogger, NavigationView.OnNavigationItemSele
             when (view.id) {
                 R.id.checkbox -> {
                     if (checked) {
+                        presenter.doIsVisited(checked)
                         hillfort.visited = true
+                    }
+                }
+                R.id.favoriteCheckbox -> {
+                    if (checked) {
+                        presenter.doIsFavorite(checked)
+                        hillfort.favorite = true
                     }
                 }
             }
