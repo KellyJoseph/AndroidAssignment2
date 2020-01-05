@@ -147,6 +147,17 @@ class HillfortPresenter(view: BaseView): BasePresenter(view) {
         view?.navigateTo(VIEW.EDITLOCATION, LOCATION_REQUEST, "location", Location(hillfort.location.lat, hillfort.location.lng, hillfort.location.zoom))
     }
 
+    fun doShowHillfortsMap() {
+        view?.navigateTo(VIEW.MAP)
+    }
+
+    fun doGoToHome() {
+        view?.navigateTo(VIEW.HILLFORTSLIST)
+    }
+    fun doGoToFavorites() {
+        view?.navigateTo(VIEW.FAVORITES)
+    }
+
 
     override fun doActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.doActivityResult(requestCode, resultCode, data)

@@ -53,4 +53,14 @@ class FavoritesPresenter(view: BaseView): BasePresenter(view) {
             }
         }
     }
+
+    fun doGoToHome() {
+        view?.navigateTo(VIEW.HILLFORTSLIST)
+    }
+    fun doGoToFavorites() {
+        view?.navigateTo(VIEW.FAVORITES)
+    }
+    fun doGoToMap() {
+        view?.navigateTo(VIEW.MAP)
+    }
 }

@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
@@ -31,8 +32,22 @@ class FavoritesView: BaseView(), HillfortListener, NavigationView.OnNavigationIt
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_hillforts_list)
+        setContentView(R.layout.activity_favorites)
         setSupportActionBar(toolbar)
+
+        val bottomNavigationView = findViewById(R.id.favorites_bottom_nav) as BottomNavigationView
+        bottomNavigationView?.setOnNavigationItemSelectedListener(
+            object : BottomNavigationView.OnNavigationItemSelectedListener {
+                override fun onNavigationItemSelected(item: MenuItem): Boolean {
+                    when (item?.itemId) {
+                        R.id.bottom_nav_home -> finish()
+                        R.id.bottom_nav_map -> presenter.doGoToMap()
+                        R.id.bottom_nav_favorites -> presenter.doGoToFavorites()
+                    }
+                    return false
+                }
+            }
+        )
 
         navViewHillfortList.setNavigationItemSelectedListener(this)
         navViewHillfortList.getHeaderView(0).textView1.text = FirebaseAuth.getInstance().currentUser!!.email

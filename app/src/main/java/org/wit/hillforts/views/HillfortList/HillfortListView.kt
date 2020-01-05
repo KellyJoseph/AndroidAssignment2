@@ -9,6 +9,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.core.view.MenuItemCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillforts_list.*
@@ -49,6 +50,20 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
         presenter.loadHillforts()
+
+        val bottomNavigationView = findViewById(R.id.hillforts_list_bottom_nav) as BottomNavigationView
+        bottomNavigationView?.setOnNavigationItemSelectedListener(
+            object : BottomNavigationView.OnNavigationItemSelectedListener {
+                override fun onNavigationItemSelected(item: MenuItem): Boolean {
+                    when (item?.itemId) {
+                        R.id.bottom_nav_home -> toast("you are already Home!")
+                        R.id.bottom_nav_map -> presenter.doShowHillfortsMap()
+                        R.id.bottom_nav_favorites -> presenter.doGoToFavorites()
+                    }
+                    return false
+                }
+            }
+        )
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
@@ -107,12 +122,6 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
             R.id.item_map -> presenter.doShowHillfortsMap()
             R.id.settings -> startActivityForResult<SettingsView>(0)
             R.id.item_logout -> presenter.doLogout()
-            R.id.bottom_nav_home -> presenter.doGoToHome()
-                //navigateTo(VIEW.HILLFORTSLIST)
-            R.id.bottom_nav_map -> presenter.doShowHillfortsMap()
-            //navigateTo(VIEW.MAP)
-            R.id.bottom_nav_favorites -> presenter.doGoToFavorites()
-            //navigateTo(VIEW.FAVORITES)
         }
         return super.onOptionsItemSelected(item)
     }

@@ -11,6 +11,7 @@ import org.jetbrains.anko.uiThread
 import org.wit.hillforts.models.HillfortModel
 import org.wit.hillforts.views.BasePresenter
 import org.wit.hillforts.views.BaseView
+import org.wit.hillforts.views.VIEW
 
 class HillfortsMapPresenter(view: BaseView): BasePresenter(view) {
 
@@ -23,6 +24,17 @@ class HillfortsMapPresenter(view: BaseView): BasePresenter(view) {
             map.addMarker(options).tag = it
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(loc, it.location.zoom))
         }
+    }
+
+    fun doShowHillfortsMap() {
+        view?.navigateTo(VIEW.MAP)
+    }
+
+    fun doGoToHome() {
+        view?.navigateTo(VIEW.HILLFORTSLIST)
+    }
+    fun doGoToFavorites() {
+        view?.navigateTo(VIEW.FAVORITES)
     }
 
     fun doMarkerSelected(marker: Marker) {

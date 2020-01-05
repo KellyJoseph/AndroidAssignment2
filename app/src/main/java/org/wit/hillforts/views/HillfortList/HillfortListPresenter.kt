@@ -29,6 +29,9 @@ HillfortListPresenter(view: BaseView): BasePresenter(view) {
     fun doGoToFavorites() {
         view?.navigateTo(VIEW.FAVORITES)
     }
+    fun doGoToMap() {
+        view?.navigateTo(VIEW.MAP)
+    }
 
     fun doLogout() {
         FirebaseAuth.getInstance().signOut()

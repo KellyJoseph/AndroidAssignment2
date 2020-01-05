@@ -4,6 +4,7 @@ import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import org.wit.hillforts.views.BasePresenter
 import org.wit.hillforts.views.BaseView
+import org.wit.hillforts.views.VIEW
 
 class SettingsPresenter (view: BaseView): BasePresenter(view) {
 
@@ -42,6 +43,16 @@ class SettingsPresenter (view: BaseView): BasePresenter(view) {
                 view?.showHillforts(hillforts)
             }
         }
+    }
+
+    fun doGoToHome() {
+        view?.navigateTo(VIEW.HILLFORTSLIST)
+    }
+    fun doGoToFavorites() {
+        view?.navigateTo(VIEW.FAVORITES)
+    }
+    fun doGoToMap() {
+        view?.navigateTo(VIEW.MAP)
     }
 
 }

@@ -15,6 +15,7 @@ import androidx.core.view.GravityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_hillfort.*
@@ -71,6 +72,20 @@ class HillfortView : BaseView(), AnkoLogger, NavigationView.OnNavigationItemSele
         //hillfortLocation.setOnClickListener(){ presenter.doSetLocation()}
         chooseImage.setOnClickListener(){ presenter.doSelectImage()}
         deleteImage.setOnClickListener() { presenter.doDeleteImage()}
+
+        val bottomNavigationView = findViewById(R.id.hillfort_bottom_nav) as BottomNavigationView
+        bottomNavigationView?.setOnNavigationItemSelectedListener(
+            object : BottomNavigationView.OnNavigationItemSelectedListener {
+                override fun onNavigationItemSelected(item: MenuItem): Boolean {
+                    when (item?.itemId) {
+                        R.id.bottom_nav_home -> presenter.doGoToHome()
+                        R.id.bottom_nav_map -> presenter.doShowHillfortsMap()
+                        R.id.bottom_nav_favorites -> presenter.doGoToFavorites()
+                    }
+                    return false
+                }
+            }
+        )
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

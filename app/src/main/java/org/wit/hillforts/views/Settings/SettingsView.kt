@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_user.*
 import org.jetbrains.anko.AnkoLogger
@@ -41,6 +42,20 @@ class SettingsView: BaseView(), AnkoLogger {
         presenter.doGetAllHillforts()
         presenter.doGetAllHillfortsByUser(user!!.uid)
         presenter.doGetAllVisitedHillfortsByUser(user!!.uid)
+
+        val bottomNavigationView = findViewById(R.id.settings_bottom_nav) as BottomNavigationView
+        bottomNavigationView?.setOnNavigationItemSelectedListener(
+            object : BottomNavigationView.OnNavigationItemSelectedListener {
+                override fun onNavigationItemSelected(item: MenuItem): Boolean {
+                    when (item?.itemId) {
+                        R.id.bottom_nav_home -> finish()
+                        R.id.bottom_nav_map -> presenter.doGoToMap()
+                        R.id.bottom_nav_favorites -> presenter.doGoToFavorites()
+                    }
+                    return false
+                }
+            }
+        )
 
 
         editUserSubmit.setOnClickListener() {
