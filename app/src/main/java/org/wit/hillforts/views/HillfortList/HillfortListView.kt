@@ -106,7 +106,13 @@ class HillfortListView: BaseView(), HillfortListener, NavigationView.OnNavigatio
             R.id.item_add -> presenter.doAddHillfort()
             R.id.item_map -> presenter.doShowHillfortsMap()
             R.id.settings -> startActivityForResult<SettingsView>(0)
-            R.id.item_logout ->presenter.doLogout()
+            R.id.item_logout -> presenter.doLogout()
+            R.id.bottom_nav_home -> presenter.doGoToHome()
+                //navigateTo(VIEW.HILLFORTSLIST)
+            R.id.bottom_nav_map -> presenter.doShowHillfortsMap()
+            //navigateTo(VIEW.MAP)
+            R.id.bottom_nav_favorites -> presenter.doGoToFavorites()
+            //navigateTo(VIEW.FAVORITES)
         }
         return super.onOptionsItemSelected(item)
     }

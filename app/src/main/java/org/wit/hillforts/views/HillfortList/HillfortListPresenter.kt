@@ -23,6 +23,13 @@ HillfortListPresenter(view: BaseView): BasePresenter(view) {
         view?.navigateTo(VIEW.MAP)
     }
 
+    fun doGoToHome() {
+        view?.navigateTo(VIEW.HILLFORTSLIST)
+    }
+    fun doGoToFavorites() {
+        view?.navigateTo(VIEW.FAVORITES)
+    }
+
     fun doLogout() {
         FirebaseAuth.getInstance().signOut()
         view?.navigateTo(VIEW.LOGIN)
