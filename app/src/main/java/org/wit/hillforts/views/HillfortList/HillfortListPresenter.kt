@@ -8,7 +8,8 @@ import org.wit.hillforts.views.BasePresenter
 import org.wit.hillforts.views.BaseView
 import org.wit.hillforts.views.VIEW
 
-class HillfortListPresenter(view: BaseView): BasePresenter(view) {
+class
+HillfortListPresenter(view: BaseView): BasePresenter(view) {
 
     fun doAddHillfort() {
         view?.navigateTo(VIEW.HILLFORT)

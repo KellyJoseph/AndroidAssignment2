@@ -118,6 +118,16 @@ class HillfortView : BaseView(), AnkoLogger, NavigationView.OnNavigationItemSele
                         dateVisited )
                 }
             }
+            //https://stackoverflow.com/questions/17167701/how-to-activate-share-button-in-android-app
+            R.id.item_share -> {
+                var sharedHillfort: String = "name: ${presenter.hillfort.name}, location: ${presenter.hillfort.location.toString()}"
+                toast ("Share button was pressed ${hillfort.id}")
+                val sharingIntent = Intent()
+                sharingIntent.action = Intent.ACTION_SEND
+                sharingIntent.type="text/plain"
+                sharingIntent.putExtra(Intent.EXTRA_TEXT, sharedHillfort);
+                startActivity(Intent.createChooser(sharingIntent,"Share via"))
+            }
         }
         return super.onOptionsItemSelected(item)
     }
